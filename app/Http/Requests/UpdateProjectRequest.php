@@ -22,7 +22,7 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_project' => 'sometimes|required|string|max:1024',
+            'nama_project' => 'sometimes|required|string|max:255',
             'tanggal_project' => 'sometimes|required|date',
             'estimasi_lama' => 'sometimes|required|integer|min:0',
             'rencana_anggaran_produksi' => 'sometimes|required|integer|min:0',

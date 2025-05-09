@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Partner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class PartnerController extends Controller
 {
@@ -31,13 +33,21 @@ class PartnerController extends Controller
     {
         $validatedData = $request->validate([
             'nama_partner' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'nullable|date',
-            'jenis_proyek' => 'required|array',
+            'email_partner' => 'required|string|max:255',
+            'no_telfon' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'deskrisi' => 'required|string|max:1024',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $partner = Partner::create($validatedData);
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->file('logo')->store('public/partnerLogos');
+            $validatedData['logo'] = $logoPath;
+        }
+
+        Partner::create($validatedData);
+
+        return redirect()->route('partners.index')->with('success', 'Succesfully Added A New Partner!');
     }
 
     /**
@@ -45,7 +55,8 @@ class PartnerController extends Controller
      */
     public function show(Partner $partner)
     {
-        //
+        $partner->loadMissing(['projects']);
+        return view('partners.show', compact('partner'));
     }
 
     /**
@@ -53,7 +64,8 @@ class PartnerController extends Controller
      */
     public function edit(Partner $partner)
     {
-        //
+        $partner->loadMissing(['projects']);
+        return view('partners.edit', compact('partner'));
     }
 
     /**
@@ -61,14 +73,43 @@ class PartnerController extends Controller
      */
     public function update(Request $request, Partner $partner)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_partner' => 'required|string|max:255',
+            'email_partner' => 'required|string|max:255',
+            'no_telfon' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'deskrisi' => 'required|string|max:1024',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            // Menghapus logo lama jika ada
+            if ($partner->logo) {
+                Storage::delete($partner->logo);
+            }
+
+            // Menyimpan logo baru
+            $logoPath = $request->file('logo')->store('public/partnerLogos');
+            $validatedData['logo'] = $logoPath;
+        }
+
+        $partner->update($validatedData);
+
+        return redirect()->route('partners.index')->with('success', 'Successfully Updated A Partner!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Partner $partner)
     {
-        //
+        if ($partner->logo) {
+            Storage::delete($partner->logo);
+        }
+
+        $partner->delete();
+
+        return redirect()->route('partners.index')->with('success', 'Successfully Deleted A Partner!');
     }
 }
