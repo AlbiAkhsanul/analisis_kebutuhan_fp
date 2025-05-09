@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
-            $table->date('tanggal_invoice')->nullable();
-            $table->string('file_invoice', 1024)->nullable();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->date('tanggal_invoice');
+            $table->string('file_invoice', 255);
             $table->timestamps();
             $table->softDeletes();
         });

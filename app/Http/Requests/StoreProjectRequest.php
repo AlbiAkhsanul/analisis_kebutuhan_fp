@@ -22,24 +22,24 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_project' => 'required|string|max:1024',
-            'tanggal_project' => 'nullable|date',
-            'estimasi_lama' => 'nullable|integer|min:0',
-            'rencana_anggaran_produksi' => 'nullable|integer|min:0',
-            'rencana_anggaran_biaya' => 'nullable|integer|min:0',
+            'nama_project' => 'required|string|max:255',
+            'tanggal_project' => 'required|date',
+            'estimasi_lama' => 'required|integer|min:0',
+            'rencana_anggaran_produksi' => 'required|integer|min:0',
+            'rencana_anggaran_biaya' => 'required|integer|min:0',
 
-            'partner_id' => 'nullable|exists:partners,id',
+            'partner_id' => 'required|exists:partners,id',
 
             'jenis_proyek' => 'nullable|array',
             'jenis_proyek.*' => 'exists:project_types,id',
 
-            'status_penajuan_kebutuhan_material' => 'sometimes|boolean',
-            'status_inspeksi_logistik' => 'sometimes|boolean',
-            'astatus_ajuhan_upahan' => 'sometimes|boolean',
-            'milestone_20' => 'sometimes|boolean',
-            'milestone_50' => 'sometimes|boolean',
-            'milestone_80' => 'sometimes|boolean',
-            'milestone_100' => 'sometimes|boolean',
+            'status_penajuan_kebutuhan_material' => 'required|boolean',
+            'status_inspeksi_logistik' => 'required|boolean',
+            'astatus_ajuhan_upahan' => 'required|boolean',
+            'milestone_20' => 'required|boolean',
+            'milestone_50' => 'required|boolean',
+            'milestone_80' => 'required|boolean',
+            'milestone_100' => 'required|boolean',
         ];
     }
 

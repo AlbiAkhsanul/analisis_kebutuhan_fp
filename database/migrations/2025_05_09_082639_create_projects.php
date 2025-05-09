@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('partner_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('nama_project', 1024);
-            $table->date('tanggal_project')->nullable();
-            $table->integer('estimasi_lama')->nullable();
-            $table->bigInteger('rencana_anggaran_produksi')->nullable();
-            $table->bigInteger('rencana_anggaran_biaya')->nullable();
+            $table->foreignId('partner_id')->constrained()->onDelete('cascade');
+            $table->string('nama_project', 255);
+            $table->date('tanggal_project');
+            $table->integer('estimasi_lama');
+            $table->bigInteger('rencana_anggaran_produksi');
+            $table->bigInteger('rencana_anggaran_biaya');
             $table->boolean('status_penajuan_kebutuhan_material')->default(false);
             $table->boolean('status_inspeksi_logistik')->default(false);
             $table->boolean('astatus_ajuhan_upahan')->default(false);

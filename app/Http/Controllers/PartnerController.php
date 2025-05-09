@@ -12,7 +12,8 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        //
+        $partners = Partner::all();
+        return view('partners.index', compact('partners'));
     }
 
     /**
@@ -20,7 +21,7 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        //
+        return view('partners.create');
     }
 
     /**
@@ -28,7 +29,15 @@ class PartnerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_partner' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'nullable|date',
+            'jenis_proyek' => 'required|array',
+        ]);
+
+        $partner = Partner::create($validatedData);
     }
 
     /**

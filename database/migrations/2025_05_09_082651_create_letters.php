@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('letters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
-            $table->date('tanggal_surat')->nullable();
-            $table->string('file_surat', 1024)->nullable();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->date('tanggal_surat');
+            $table->string('file_surat', 255);
             $table->timestamps();
             $table->softDeletes();
         });

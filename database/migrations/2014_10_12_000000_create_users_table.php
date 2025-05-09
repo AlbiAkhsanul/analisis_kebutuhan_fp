@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pengguna', 1024);
+            $table->string('nama_pengguna', 255);
             $table->string('password');
-            $table->string('email_pengguna', 1024);
-            $table->string('jobdesk', 1024)->nullable();
+            $table->string('email_pengguna', 255);
+            $table->string('jobdesk', 255);
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
             $table->softDeletes();

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('project_types', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_project_', 1024);
-            $table->string('deskripsi_project_type', 1024)->nullable();
+            $table->string('nama_project_type', 255);
+            $table->string('deskripsi_project_type', 1024);
             $table->timestamps();
             $table->softDeletes();
         });

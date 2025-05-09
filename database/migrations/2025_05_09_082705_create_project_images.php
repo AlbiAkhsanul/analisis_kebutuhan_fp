@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('project_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable()->constrained()->onDelete('restrict');
-            $table->string('file_foto', 1024)->nullable();
+            $table->foreignId('project_id')->constrained()->onDelete('restrict');
+            $table->string('file_foto', 255);
             $table->timestamps();
             $table->softDeletes();
         });
