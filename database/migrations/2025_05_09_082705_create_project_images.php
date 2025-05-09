@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('project_images', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pengguna', 1024);
-            $table->string('email_pengguna', 1024);
-            $table->string('jobdesk', 1024)->nullable();
-            $table->boolean('is_admin')->default(false);
+            $table->foreignId('project_id')->nullable()->constrained()->onDelete('restrict');
+            $table->string('file_foto', 1024)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('project_images');
     }
 };
