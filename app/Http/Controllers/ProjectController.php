@@ -2,9 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    //
+    /**
+     * Menampilkan daftar semua proyek.
+     *
+     */
+    public function index()
+    {
+        $projects = Project::with('partner')->get();
+        return view('projects.index', compact('projects'));
+    }
+
+    /**
+     * Menampilkan form untuk membuat proyek baru.
+     *
+     */
+    public function create()
+    {
+        return view('projects.create');
+    }
+
+    /**
+     * Menyimpan proyek baru.
+     *
+     */
+    public function store(StoreProjectRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $project = Project::create($validatedData);
+
+        $project->types()->sync($validatedData['jenis_proyek']);
+
+        return redirect()->route('projects.index')->with('success', 'Succesfully Added A New Project!');
+    }
+
+    /**
+     * Menampilkan detail proyek berdasarkan ID.
+     *
+     */
+    public function show(Project $project)
+    {
+        $project->loadMissing(['partner', 'types', 'invoices', 'letters', 'images']);
+        return view('projects.show', compact('project'));
+    }
+
+    /**
+     * Menampilkan form untuk mengedit proyek.
+     *
+     */
+    public function edit(Project $project)
+    {
+        $project->loadMissing(['partner', 'types', 'invoices', 'letters', 'images']);
+        return view('projects.edit', compact('project'));
+    }
+
+    /**
+     * Memperbarui data proyek.
+     *
+     */
+    public function update(UpdateProjectRequest $request, Project $project)
+    {
+        $validatedData = $request->validated();
+
+        $project->update($validatedData);
+
+        $project->types()->sync($validatedData['jenis_proyek']);
+
+        return redirect('projects.index')->with('success', 'Succesfully Updated A Project!');
+    }
+
+    /**
+     * Menghapus proyek berdasarkan ID.
+     *
+     */
+    public function destroy(Project $project)
+    {
+        $project->delete();
+
+        return redirect('projects.index')->with('success', 'Succesfully Deleted A Project!');
+    }
 }
