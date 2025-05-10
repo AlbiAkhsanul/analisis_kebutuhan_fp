@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Letter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LetterController extends Controller
 {
@@ -28,7 +29,22 @@ class LetterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'tanggal_surat' => 'required|string|max:255',
+            'file_surat' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('file_surat')) {
+            $letterPath = $request->file('file_surat')->store('public/projectLetters');
+            $validatedData['file_surat'] = $letterPath;
+        }
+
+        Letter::create($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Added A New Letter!',
+        ]);
     }
 
     /**
@@ -60,6 +76,15 @@ class LetterController extends Controller
      */
     public function destroy(Letter $letter)
     {
-        //
+        if ($letter->file_surat) {
+            Storage::delete($letter->file_surat);
+        }
+
+        $letter->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Deleted A Letter!',
+        ]);
     }
 }

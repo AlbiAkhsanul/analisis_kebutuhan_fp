@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjectImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectImageController extends Controller
 {
@@ -28,7 +29,21 @@ class ProjectImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'file_foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('file_foto')) {
+            $fotoPath = $request->file('file_foto')->store('public/projectImages');
+            $validatedData['file_foto'] = $fotoPath;
+        }
+
+        ProjectImage::create($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Added A New Project Image!',
+        ]);
     }
 
     /**
@@ -60,6 +75,15 @@ class ProjectImageController extends Controller
      */
     public function destroy(ProjectImage $projectImage)
     {
-        //
+        if ($projectImage->file_foto) {
+            Storage::delete($projectImage->file_foto);
+        }
+
+        $projectImage->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Deleted A Project Image!',
+        ]);
     }
 }
