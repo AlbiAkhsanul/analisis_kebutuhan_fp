@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_pengguna', 255);
             $table->string('password');
-            $table->string('email_pengguna', 255);
+            $table->string('email', 255);
             $table->string('jobdesk', 255);
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
