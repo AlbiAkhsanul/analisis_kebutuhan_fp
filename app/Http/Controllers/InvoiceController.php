@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -28,7 +29,22 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'tanggal_invoice' => 'required|string|max:255',
+            'file_invoice' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('file_invoice')) {
+            $invoicePath = $request->file('file_invoice')->store('public/projectInvoices');
+            $validatedData['file_invoice'] = $invoicePath;
+        }
+
+        Invoice::create($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Added A New Invoice!',
+        ]);
     }
 
     /**
@@ -60,6 +76,15 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        if ($invoice->file_invoice) {
+            Storage::delete($invoice->file_invoice);
+        }
+
+        $invoice->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Deleted An Invoice!',
+        ]);
     }
 }

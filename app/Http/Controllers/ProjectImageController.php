@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Letter;
+use App\Models\ProjectImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class LetterController extends Controller
+class ProjectImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,27 +30,26 @@ class LetterController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'tanggal_surat' => 'required|string|max:255',
-            'file_surat' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file_foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('file_surat')) {
-            $letterPath = $request->file('file_surat')->store('public/projectLetters');
-            $validatedData['file_surat'] = $letterPath;
+        if ($request->hasFile('file_foto')) {
+            $fotoPath = $request->file('file_foto')->store('public/projectImages');
+            $validatedData['file_foto'] = $fotoPath;
         }
 
-        Letter::create($validatedData);
+        ProjectImage::create($validatedData);
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully Added A New Letter!',
+            'message' => 'Successfully Added A New Project Image!',
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Letter $letter)
+    public function show(ProjectImage $projectImage)
     {
         //
     }
@@ -58,7 +57,7 @@ class LetterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Letter $letter)
+    public function edit(ProjectImage $projectImage)
     {
         //
     }
@@ -66,7 +65,7 @@ class LetterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Letter $letter)
+    public function update(Request $request, ProjectImage $projectImage)
     {
         //
     }
@@ -74,17 +73,17 @@ class LetterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Letter $letter)
+    public function destroy(ProjectImage $projectImage)
     {
-        if ($letter->file_surat) {
-            Storage::delete($letter->file_surat);
+        if ($projectImage->file_foto) {
+            Storage::delete($projectImage->file_foto);
         }
 
-        $letter->delete();
+        $projectImage->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully Deleted A Letter!',
+            'message' => 'Successfully Deleted A Project Image!',
         ]);
     }
 }
