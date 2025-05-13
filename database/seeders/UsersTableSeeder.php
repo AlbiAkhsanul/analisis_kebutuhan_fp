@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
             [
                 'nama_pengguna' => 'Admin',
                 'password' => Hash::make('password123'),
-                'email_pengguna' => 'admin@example.com',
+                'email' => 'admin@example.com',
                 'jobdesk' => 'Administrator',
                 'is_admin' => 1,
                 'created_at' => Carbon::now(),
@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
             [
                 'nama_pengguna' => 'Regular',
                 'password' => Hash::make('userpassword'),
-                'email_pengguna' => 'user@example.com',
+                'email' => 'user@example.com',
                 'jobdesk' => 'Stakeholder',
                 'is_admin' => 0,
                 'created_at' => Carbon::now(),
