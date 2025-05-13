@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('contoh(farel)_layout')
 
 @section('title', 'Dashboard - Home')
 
@@ -55,8 +55,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($proyeks as $index => $proyek)
-                    <tr>
+                    @foreach($projects as $index => $proyek)
+                    {{-- <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>
                             <strong>{{ $proyek->judul }}</strong><br>
@@ -83,10 +83,10 @@
                                 <i class="bi bi-trash-fill fs-5"></i>
                             </a>
                         </td>
-                    </tr>
+                    </tr> --}}
                     @endforeach
 
-                    @if($proyeks->isEmpty())
+                    @if($projects->isEmpty())
                     <tr>
                         <td colspan="5" class="text-center text-muted">Tidak ada proyek.</td>
                     </tr>
