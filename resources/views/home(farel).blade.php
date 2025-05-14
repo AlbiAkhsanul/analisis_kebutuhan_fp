@@ -3,37 +3,41 @@
 @section('title', 'Dashboard - Home')
 
 @section('content')
-<div class="row g-0">
+<div class="row g-0 min-h-screen" style="background: linear-gradient(to bottom, #5CA3FF, #112A4A);">
     <!-- Sidebar -->
-    <div class="col-md-3 text-white p-4" style="background: linear-gradient(to bottom, #0d47a1, #1565c0); min-height: 100vh;">
-        <div class="text-center mb-3">
-            <img src="{{ asset('logo.png') }}" alt="Logo" class="img-fluid" style="width: 130px;">
+    <div class="col-md-3 my-5 text-white p-4 border-end" style="min-height: 100vh;">
+        <div class="text-start mb-3">
+            <img src="{{ asset('src/anomali.jpeg') }}" alt="User" class="rounded-circle" width="134" style="border-radius: 121px; border: 5px white solid" src="https://placehold.co/134x134">
         </div>
-        <h5 class="text-white fw-bold text-center">PT DUTA REKA BUMI</h5>
-        <p class="text-center small mb-4">EXPORT - IMPORT - STRATEGIC TRADING</p>
-        <hr style="border-color: white;">
-        <div class="text-center mb-3">
-            <img src="{{ asset('user.jpg') }}" alt="User" class="rounded-circle" width="100">
-        </div>
-        <p><strong>Nama</strong> : {{ $user->nama }}</p>
-        <p><strong>Email</strong> : {{ $user->email }}</p>
-        <p><strong>Jobdesk</strong> : {{ $user->jobdesk }}</p>
+        <table class="text-white table-borderless mb-0" style="background-color: transparent;">
+            <tbody>
+                <tr>
+                    <td><strong>Nama</strong></td>
+                    <td>    : {{ $user->nama_pengguna }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>    : {{ $user->email }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Jobdesk</strong></td>
+                    <td>    : {{ $user->jobdesk }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
         <a href="{{ route('logout') }}" class="btn btn-danger w-100 mt-4 fw-bold">
             Keluar <i class="bi bi-box-arrow-right ms-2"></i>
         </a>
     </div>
 
+
+
     <!-- Main Content -->
-    <div class="col-md-9" style="background: linear-gradient(to bottom, #1976d2, #42a5f5); min-height: 100vh;">
-        <!-- Header tanggal -->
-        <div class="d-flex justify-content-end p-3">
-            <small class="text-white fw-bold">
-                {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y | H:i:s') }} WIB
-            </small>
-        </div>
+    <div class="col-md-9" style="min-height: 100vh;">
 
         <!-- Tombol atas -->
-        <div class="px-4 d-flex justify-content-between align-items-center mb-3">
+        <div class="px-4 d-flex justify-content-between align-items-center mb-3 mt-5">
             <a href="#" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
                 + Tambah Data Proyek
             </a>
@@ -56,7 +60,7 @@
                 </thead>
                 <tbody>
                     @foreach($projects as $index => $proyek)
-                    {{-- <tr>
+                    <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>
                             <strong>{{ $proyek->judul }}</strong><br>
@@ -83,7 +87,7 @@
                                 <i class="bi bi-trash-fill fs-5"></i>
                             </a>
                         </td>
-                    </tr> --}}
+                    </tr>
                     @endforeach
 
                     @if($projects->isEmpty())
@@ -94,11 +98,10 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Footer -->
-        <footer class="text-center text-white mt-4">
-            <small>©2025 PT Duta Reka Bumi. Seluruh hak cipta dilindungi.</small>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer class="text-center text-xs text-white w-full mt-8 absolute bottom-2">
+        <small>©2025 PT Duta Reka Bumi. Seluruh hak cipta dilindungi.</small>
+    </footer>
 </div>
 @endsection
