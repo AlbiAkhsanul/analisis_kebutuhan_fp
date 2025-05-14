@@ -19,11 +19,12 @@
         </tbody>
     </table>
     
-    <form action="{{ route('logout') }}" method="POST" class="w-75 mt-5 ms-3">
-        @csrf
-        <button type="submit" class="btn btn-danger fw-bold w-100">
-            Keluar <i class="bi bi-box-arrow-right ms-2"></i>
-        </button>
-    </form>
-
+    @if(Route::currentRouteName() === 'projects.index')
+        <form action="{{ route('logout') }}" method="POST" class="w-75 mt-5 ms-3">
+            @csrf
+            <button type="submit" class="btn btn-danger fw-bold w-100">
+                Keluar <i class="bi bi-box-arrow-right ms-2"></i>
+            </button>
+        </form>
+    @endif
 </div>

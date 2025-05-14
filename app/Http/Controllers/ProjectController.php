@@ -52,8 +52,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $user = auth()->user();
         $project->loadMissing(['partner', 'types', 'invoices', 'letters', 'images']);
-        return view('projects.show', compact('project'));
+        return view('projects.show', compact('project', 'user'));
     }
 
     /**

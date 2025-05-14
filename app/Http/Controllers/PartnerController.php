@@ -15,7 +15,8 @@ class PartnerController extends Controller
     public function index()
     {
         $partners = Partner::all();
-        return view('partners.index', compact('partners'));
+        $user = auth()->user();
+        return view('partners.index', compact('partners', 'user'));
     }
 
     /**
@@ -56,7 +57,8 @@ class PartnerController extends Controller
     public function show(Partner $partner)
     {
         $partner->loadMissing(['projects']);
-        return view('partners.show', compact('partner'));
+        $user = auth()->user();
+        return view('partners.show', compact('partner', 'user'));
     }
 
     /**
