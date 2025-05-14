@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email_partner', 255);
             $table->string('no_telfon', 255);
             $table->string('alamat', 255);
-            $table->string('deksripsi', 1024);
+            $table->string('deskripsi', 1024);
             $table->string('logo', 255);
             $table->timestamps();
             $table->softDeletes();

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('rencana_anggaran_biaya');
             $table->boolean('status_penajuan_kebutuhan_material')->default(false);
             $table->boolean('status_inspeksi_logistik')->default(false);
-            $table->boolean('astatus_ajuhan_upahan')->default(false);
+            $table->boolean('status_ajuhan_upahan')->default(false);
             $table->boolean('milestone_20')->default(false);
             $table->boolean('milestone_50')->default(false);
             $table->boolean('milestone_80')->default(false);

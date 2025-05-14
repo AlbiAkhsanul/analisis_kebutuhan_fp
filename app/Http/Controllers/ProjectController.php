@@ -19,7 +19,7 @@ class ProjectController extends Controller
         $user = auth()->user();
 
         // return view('projects.index', compact('projects', 'user'));
-        return view('home(farel)', compact('projects', 'user')); //Coba memanggil home punya mas farel
+        return view('home', compact('projects', 'user')); //Coba memanggil home punya mas farel
     }
 
     /**

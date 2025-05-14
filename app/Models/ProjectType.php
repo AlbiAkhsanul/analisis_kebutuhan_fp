@@ -16,6 +16,6 @@ class ProjectType extends Model
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'project_project_type');
+        return $this->belongsToMany(Project::class, 'project_project_types');
     }
 }
