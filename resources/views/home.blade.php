@@ -21,8 +21,8 @@
                 <tr class="text-start">
                     <th>No</th>
                     <th style="width: 45%;">Nama Proyek</th>
-                    <th>Lokasi</th>
-                    <th>Status</th>
+                    <th style="width: 20%;">Lokasi</th>
+                    <th style="width: 15%;">Status</th>
                     <th style="width: 15%;">Aksi</th>
                 </tr>
             </thead>
@@ -36,12 +36,14 @@
                     </td>
                     <td>{{ $proyek->lokasi }}</td>
                     <td class="text-start">
-                        @if($proyek->status === 'Aktif')
+                        @if($proyek->status_project === 'aktif')
                             <span class="badge bg-success fw-bold fs-6 rounded-pill">Aktif</span>
-                        @elseif($proyek->status === 'Selesai')
+                        @elseif($proyek->status_project === 'selesai')
                             <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
-                        @else
-                            <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                        @elseif($proyek->status_project === 'batal')
+                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
+                        @elseif($proyek->status_project === 'pending')
+                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
                         @endif
                     </td>
                     <td class="text-start">
@@ -49,7 +51,7 @@
                             <a href="/projects/{{ $proyek->id }}" class="text-primary" title="Lihat">
                                 <i class="bi bi-eye-fill fs-5"></i>
                             </a>&nbsp;
-                            <a href="#" class="text-warning" title="Edit">
+                            <a href="/projects/{{ $proyek->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
                             <a href="#" class="text-danger" title="Hapus">

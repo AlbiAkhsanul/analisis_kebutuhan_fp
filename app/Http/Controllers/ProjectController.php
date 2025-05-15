@@ -68,8 +68,11 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $user = auth()->user();
+        $partners = Partner::all();
+        $projectTypes = ProjectType::all();
         $project->loadMissing(['partner', 'types', 'invoices', 'letters', 'images']);
-        return view('projects.edit', compact('project'));
+        return view('projects.edit', compact('project', 'user', 'partners', 'projectTypes'));
     }
 
     /**
