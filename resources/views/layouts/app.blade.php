@@ -17,20 +17,18 @@
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     @include('layouts.navbar')
-    <div class="row g-0 min-h-screen" style="background: linear-gradient(to bottom, #5CA3FF, #112A4A);">
-        <!-- Sidebar -->
-        @include('layouts.sidebar')
 
-        <!-- Main Content -->
-        @yield('content')
-        <!-- Footer -->
-        <footer class="text-center text-xs text-white w-full mt-8 absolute bottom-2">
+    <div class="flex-fill d-flex flex-column" style="background: linear-gradient(to bottom, #5CA3FF, #112A4A);">
+        <div class="row g-0 flex-fill pb-6">
+            @include('layouts.sidebar')
+            @yield('content')
+        </div>
+
+        <footer class="text-center text-xs text-white w-100 mt-auto py-2">
             <small>©2025 PT Duta Reka Bumi. Seluruh hak cipta dilindungi.</small>
         </footer>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
