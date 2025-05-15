@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Main Content -->
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
         <a href="/projects/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
@@ -37,11 +37,11 @@
                     <td>{{ $proyek->lokasi }}</td>
                     <td class="text-start">
                         @if($proyek->status === 'Aktif')
-                            <span class="badge bg-success fw-bold fs-6">Aktif</span>
+                            <span class="badge bg-success fw-bold fs-6 rounded-pill">Aktif</span>
                         @elseif($proyek->status === 'Selesai')
-                            <span class="badge bg-info text-dark fw-bold fs-6">Selesai</span>
+                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
                         @else
-                            <span class="badge bg-warning text-dark fw-bold fs-6">Pending</span>
+                            <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Pending</span>
                         @endif
                     </td>
                     <td class="text-start">
