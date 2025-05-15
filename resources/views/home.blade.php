@@ -23,7 +23,7 @@
                     <th style="width: 45%;">Nama Proyek</th>
                     <th>Lokasi</th>
                     <th>Status</th>
-                    <th>Aksi</th>
+                    <th style="width: 15%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

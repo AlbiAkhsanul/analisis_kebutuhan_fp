@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectType;
+use App\Models\Partner;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
@@ -29,7 +31,9 @@ class ProjectController extends Controller
     public function create()
     {
         $user = auth()->user();
-        return view('projects.create', compact('user'));
+        $partners = Partner::all();
+        $types = ProjectType::all();
+        return view('projects.create', compact('user', 'partners', 'types'));
     }
 
     /**
