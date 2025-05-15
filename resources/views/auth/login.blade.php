@@ -12,7 +12,7 @@
         </div>
 
         <!-- Password -->
-            <x-text-input id="password" class="block mt-1 w-full  h-14"
+            <x-text-input id="password" class="block mt-5 w-full h-14"
                             type="password"
                             name="password"
                             required autocomplete="current-password" placeholder="Password"/>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="flex items-center justify-center mt-12">
-            <x-primary-button class="ms-3 w-52 h-20 relative rounded-[20px]">
+            <x-primary-button class="ms-3 w-52 h-20 relative rounded-[30px]">
                 {{ __('Masuk') }}
             </x-primary-button>
         </div>
