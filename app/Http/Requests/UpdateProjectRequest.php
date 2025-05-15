@@ -33,13 +33,21 @@ class UpdateProjectRequest extends FormRequest
             'jenis_proyek' => 'nullable|array',
             'jenis_proyek.*' => 'exists:project_types,id',
 
-            'status_penajuan_kebutuhan_material' => 'sometimes|required|boolean',
-            'status_inspeksi_logistik' => 'sometimes|required|boolean',
-            'astatus_ajuhan_upahan' => 'sometimes|required|boolean',
-            'milestone_20' => 'sometimes|required|boolean',
-            'milestone_50' => 'sometimes|required|boolean',
-            'milestone_80' => 'sometimes|required|boolean',
-            'milestone_100' => 'sometimes|required|boolean',
+            'status_penajuan_kebutuhan_material' => 'sometimes|required|in:pending,diterima,ditolak',
+            'status_inspeksi_logistik' => 'sometimes|required|in:pending,diterima,ditolak',
+            'status_ajuhan_upahan' => 'sometimes|required|in:pending,diterima,ditolak',
+
+            'status_project' => 'sometimes|required|in:pending,aktif,selesaibatal',
+
+            'status_milestone_20' => 'sometimes|required|in:pending,hutang,piutang,lunas',
+            'status_milestone_50' => 'sometimes|required|in:pending,hutang,piutang,lunas',
+            'status_milestone_80' => 'sometimes|required|in:pending,hutang,piutang,lunas',
+            'status_milestone_100' => 'sometimes|required|in:pending,hutang,piutang,lunas',
+
+            'tanggal_milestone_20' => 'sometimes|nullable|date',
+            'tanggal_milestone_50' => 'sometimes|nullable|date',
+            'tanggal_milestone_80' => 'sometimes|nullable|date',
+            'tanggal_milestone_100' => 'sometimes|nullable|date',
         ];
     }
 
@@ -49,15 +57,18 @@ class UpdateProjectRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'status_penajuan_kebutuhan_material' => $this->booleanValue('status_penajuan_kebutuhan_material'),
-            'status_inspeksi_logistik' => $this->booleanValue('status_inspeksi_logistik'),
-            'astatus_ajuhan_upahan' => $this->booleanValue('astatus_ajuhan_upahan'),
-            'milestone_20' => $this->booleanValue('milestone_20'),
-            'milestone_50' => $this->booleanValue('milestone_50'),
-            'milestone_80' => $this->booleanValue('milestone_80'),
-            'milestone_100' => $this->booleanValue('milestone_100'),
+            'tanggal_milestone_20' => $this->nullIfEmpty('tanggal_milestone_20'),
+            'tanggal_milestone_50' => $this->nullIfEmpty('tanggal_milestone_50'),
+            'tanggal_milestone_80' => $this->nullIfEmpty('tanggal_milestone_80'),
+            'tanggal_milestone_100' => $this->nullIfEmpty('tanggal_milestone_100'),
         ]);
     }
+
+    private function nullIfEmpty($field)
+    {
+        return $this->input($field) === '' ? null : $this->input($field);
+    }
+
 
     private function booleanValue($field)
     {
@@ -68,6 +79,13 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'partner_id.exists' => 'Partner tidak ditemukan.',
+            'status_penajuan_kebutuhan_material.in' => 'Status penajuan kebutuhan material harus berupa: pending, diterima, atau ditolak.',
+            'status_inspeksi_logistik.in' => 'Status inspeksi logistik harus berupa: pending, diterima, atau ditolak.',
+            'status_ajuhan_upahan.in' => 'Status ajuhan upahan harus berupa: pending, diterima, atau ditolak.',
+            'milestone_20' => 'Milestone harus berupa: pending, hutang, piutang, atau lunas',
+            'milestone_50' => 'Milestone harus berupa: pending, hutang, piutang, atau lunas',
+            'milestone_80' => 'Milestone harus berupa: pending, hutang, piutang, atau lunas',
+            'milestone_100' => 'Milestone harus berupa: pending, hutang, piutang, atau lunas',
         ];
     }
 }
