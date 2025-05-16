@@ -232,27 +232,55 @@
 </div>
 
 <script>
-let documentCount = 0;
-let currentDocumentType = ''; // "invoice", "surat", atau "foto"
+const modalEl = document.getElementById('uploadDocumentModal');
+const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
 
+// Event listener ini hanya ditambahkan satu kali saat halaman dimuat
+modalEl.addEventListener('shown.bs.modal', () => {
+  document.getElementById('saveDocumentsBtn').focus();
+});
+
+
+let currentDocumentType = '';
+let documentCount = 0;
+
+const uploadedDocuments = {
+  invoice: [],
+  surat: [],
+  foto: []
+};
+
+// Fungsi membuka modal upload dokumen
 function openDocumentModal(type, title) {
   currentDocumentType = type;
+
+  // Cek apakah ada dokumen sebelumnya
+  const existingDocs = uploadedDocuments[type];
   documentCount = 0;
   document.getElementById('documentModalTitle').textContent = title;
   document.getElementById('documentList').innerHTML = '';
-  addDocumentRow(); // otomatis tambah satu baris awal
-  const modalEl = document.getElementById('uploadDocumentModal');
-  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    if (existingDocs && existingDocs.length > 0) {
+    existingDocs.forEach((doc, idx) => {
+        addDocumentRow(doc, idx); // tambahkan index
+    });
+    } else {
+    addDocumentRow(); // baris baru kosong
+    }
+
   modal.show();
 }
 
-function addDocumentRow() {
+// Fungsi menambahkan baris form dokumen
+function addDocumentRow(existingData = null, index = null) {
   documentCount++;
   const container = document.getElementById('documentList');
   const row = document.createElement('div');
   row.className = 'row mb-3 align-items-center';
+  
+  if (existingData) row.dataset.existing = "true";
+  if (index !== null) row.dataset.index = index;
 
-  // Tentukan tipe file yang diizinkan sesuai tipe dokumen
   let acceptType = '';
   if (currentDocumentType === 'invoice' || currentDocumentType === 'surat') {
     acceptType = 'application/pdf';
@@ -262,10 +290,11 @@ function addDocumentRow() {
 
   row.innerHTML = `
     <div class="col-7">
-      <input type="file" class="form-control document-file" accept="${acceptType}" required>
+      <input type="file" class="form-control document-file" accept="${acceptType}">
+      ${existingData ? `<small class="text-muted">Sebelumnya: ${existingData.file.name}</small>` : ''}
     </div>
     <div class="col-4">
-      <input type="date" class="form-control document-date" required>
+      <input type="date" class="form-control document-date" value="${existingData ? existingData.date : ''}" required>
     </div>
     <div class="col-1">
       <button type="button" class="btn btn-danger btn-sm remove-row-btn">×</button>
@@ -274,58 +303,87 @@ function addDocumentRow() {
 
   container.appendChild(row);
 
-  // Event untuk tombol hapus baris
   row.querySelector('.remove-row-btn').addEventListener('click', () => {
     row.remove();
     documentCount--;
   });
 }
 
-// Event untuk tombol tambah baris dokumen
+
+// Event tombol "Tambah Baris Dokumen"
 document.getElementById('addDocumentRowBtn').addEventListener('click', () => {
   addDocumentRow();
 });
 
-// Event tombol simpan (contoh: validasi sederhana dan tampilkan data ke console)
+// Event tombol "Simpan Dokumen"
 document.getElementById('saveDocumentsBtn').addEventListener('click', () => {
   const files = document.querySelectorAll('#documentList .document-file');
   const dates = document.querySelectorAll('#documentList .document-date');
+const rows = document.querySelectorAll('#documentList .row');
+let dataToUpload = [];
+let valid = true;
 
-  let valid = true;
-  let dataToUpload = [];
+rows.forEach((row, i) => {
+  const fileInput = row.querySelector('.document-file');
+  const dateInput = row.querySelector('.document-date');
+  const isExisting = row.dataset.existing === "true";
+  const index = parseInt(row.dataset.index);
 
-  for (let i = 0; i < files.length; i++) {
-    const fileInput = files[i];
-    const dateInput = dates[i];
+  let file;
 
-    if (!fileInput.files.length) {
-      alert(`File pada baris ke-${i + 1} belum dipilih.`);
-      valid = false;
-      break;
-    }
-    if (!dateInput.value) {
-      alert(`Tanggal pada baris ke-${i + 1} belum diisi.`);
-      valid = false;
-      break;
-    }
-
-    dataToUpload.push({
-      file: fileInput.files[0],
-      date: dateInput.value
-    });
+  if (fileInput.files.length > 0) {
+    file = fileInput.files[0]; // file baru
+  } else if (isExisting && uploadedDocuments[currentDocumentType][index]) {
+    file = uploadedDocuments[currentDocumentType][index].file; // file lama
+  } else {
+    alert(`File pada baris ke-${i + 1} belum dipilih.`);
+    valid = false;
+    return;
   }
 
-  if (!valid) return;
+  if (!dateInput.value) {
+    alert(`Tanggal pada baris ke-${i + 1} belum diisi.`);
+    valid = false;
+    return;
+  }
 
-  // Contoh: tampilkan data yang akan diupload (ganti dengan proses upload sebenarnya)
-  console.log(`Upload ${currentDocumentType}:`, dataToUpload);
+  dataToUpload.push({
+    file: file,
+    date: dateInput.value
+  });
+});
 
-  // Tutup modal setelah simpan
+if (!valid) return;
+
+
+  // Timpa data berdasarkan jenis dokumen
+  uploadedDocuments[currentDocumentType] = dataToUpload;
+
+  // Tampilkan ringkasan
+  let summaryHTML = '<ul class="list-group">';
+  dataToUpload.forEach((item, index) => {
+    summaryHTML += `
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">${item.file.name}</div>
+          Tanggal: ${item.date}
+        </div>
+      </li>
+    `;
+  });
+  summaryHTML += '</ul>';
+
+  const summaryContainer = document.getElementById(currentDocumentType + 'Summary');
+  summaryContainer.innerHTML = `
+    <h6>Ringkasan ${currentDocumentType.charAt(0).toUpperCase() + currentDocumentType.slice(1)}</h6>
+    ${summaryHTML}
+  `;
+
+  // Tutup modal
   const modalEl = document.getElementById('uploadDocumentModal');
   const modal = bootstrap.Modal.getInstance(modalEl);
   modal.hide();
 
-  // Reset form jika perlu
   document.getElementById('documentList').innerHTML = '';
   documentCount = 0;
 });
