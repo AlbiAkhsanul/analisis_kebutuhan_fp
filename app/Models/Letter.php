@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Letter extends Model
 {
@@ -17,5 +18,16 @@ class Letter extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($letter) {
+            if ($letter->file_surat && Storage::exists($letter->file_surat)) {
+                Storage::delete($letter->file_surat);
+            }
+        });
     }
 }

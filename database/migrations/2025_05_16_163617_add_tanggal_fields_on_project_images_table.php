@@ -13,7 +13,7 @@ return new class extends Migration
     {
 
         Schema::table('project_images', function (Blueprint $table) {
-            $table->date('tanggal_gambar');
+            $table->date('tanggal_foto');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
         Schema::table('project_images', function (Blueprint $table) {
             // Rollback to boolean
             $table->dropColumn([
-                'tanggal_gambar'
+                'tanggal_foto'
             ]);
         });
     }

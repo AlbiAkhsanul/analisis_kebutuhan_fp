@@ -44,8 +44,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fs-5">Estimasi Lama Pengerjaan</label>
-                    <input type="text" name="estimasi_lama" class="form-control" placeholder="Contoh: 5 Bulan">
+                    <label class="form-label fs-5">Estimasi Lama Pengerjaan (Bulan)</label>
+                    <input type="number" name="estimasi_lama" class="form-control" placeholder="Contoh: 5">
                 </div>
 
                 <div class="mb-1">
@@ -223,7 +223,7 @@
             <div id="fotoSummary" class="mt-3"></div>
 
             <div class="mt-3">
-                <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
+                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
                     Tambah Data Proyek
                 </button>
             </div>
@@ -387,5 +387,42 @@ if (!valid) return;
   document.getElementById('documentList').innerHTML = '';
   documentCount = 0;
 });
+
+document.getElementById('submitProjectBtn').addEventListener('click', function () {
+  const form = document.getElementById('projectForm'); // form utama
+  const formData = new FormData(form);
+
+  // Tambahkan dokumen yang diunggah ke FormData
+  ['invoice', 'surat', 'foto'].forEach((type) => {
+    uploadedDocuments[type].forEach((doc, index) => {
+      formData.append(`${type}[${index}][file]`, doc.file);
+      formData.append(`${type}[${index}][date]`, doc.date);
+    });
+  });
+
+  // Kirim manual via fetch/AJAX
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    }
+  })
+    .then(response => {
+      if (response.redirected) {
+        window.location.href = response.url; // Redirect jika sukses
+      } else {
+        return response.json().then(err => {
+          console.error('Validation errors:', err);
+          alert('Gagal menyimpan data proyek. Cek kembali inputan Anda.');
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Terjadi kesalahan saat menyimpan proyek.');
+    });
+});
+
 </script>
 @endsection
