@@ -43,6 +43,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        // dd($request);
         $validatedData = $request->validated();
 
         // Simpan data proyek
@@ -55,52 +56,76 @@ class ProjectController extends Controller
         // Simpan dokumen tambahan
         // ============================
 
-        // Invoice
-        if ($request->has('invoice')) {
-            foreach ($request->file('invoice') as $index => $fileData) {
-                $file = $fileData['file'];
-                $date = $request->input("invoice.{$index}.date");
+        // // Invoice
+        // if ($request->has('invoice')) {
+        //     foreach ($request->file('invoice') as $index => $fileData) {
+        //         $file = $fileData['file'];
+        //         $date = $request->input("invoice.{$index}.date");
 
-                $path = $file->store('invoices');
+        //         $path = $file->store('projectInvoices');
 
-                $project->invoices()->create([
-                    'file_path' => $path,
-                    'date' => $date
-                ]);
+        //         $project->invoices()->create([
+        //             'file_path' => $path,
+        //             'date' => $date
+        //         ]);
+        //     }
+        // }
+
+        // // Surat
+        // if ($request->has('surat')) {
+        //     foreach ($request->file('surat') as $index => $fileData) {
+        //         $file = $fileData['file'];
+        //         $date = $request->input("surat.{$index}.date");
+
+        //         $path = $file->store('projectLetters');
+
+        //         $project->letters()->create([
+        //             'file_path' => $path,
+        //             'date' => $date
+        //         ]);
+        //     }
+        // }
+
+        // // Foto
+        // if ($request->has('foto')) {
+        //     foreach ($request->file('foto') as $index => $fileData) {
+        //         $file = $fileData['file'];
+        //         $date = $request->input("foto.{$index}.date");
+
+        //         $path = $file->store('projectImages');
+
+        //         $project-images()->create([
+        //             'file_path' => $path,
+        //             'date' => $date
+        //         ]);
+        //     }
+        // }
+
+        foreach (['invoice' => 'projectInvoices', 'surat' => 'projectLetters', 'foto' => 'projectImages'] as $key => $folder) {
+            if ($request->has($key)) {
+                foreach ($request->file($key) as $index => $fileData) {
+                    $file = $fileData['file'];
+                    $date = $request->input("{$key}.{$index}.date");
+                    $path = $file->store($folder);
+
+                    $relation = match ($key) {
+                        'invoice' => 'invoices',
+                        'surat' => 'letters',
+                        'foto' => 'images',
+                    };
+
+                    $project->{$relation}()->create([
+                        'file_path' => $path,
+                        'date' => $date,
+                    ]);
+                }
             }
         }
 
-        // Surat
-        if ($request->has('surat')) {
-            foreach ($request->file('surat') as $index => $fileData) {
-                $file = $fileData['file'];
-                $date = $request->input("surat.{$index}.date");
-
-                $path = $file->store('letters');
-
-                $project->letters()->create([
-                    'file_path' => $path,
-                    'date' => $date
-                ]);
-            }
-        }
-
-        // Foto
-        if ($request->has('foto')) {
-            foreach ($request->file('foto') as $index => $fileData) {
-                $file = $fileData['file'];
-                $date = $request->input("foto.{$index}.date");
-
-                $path = $file->store('project_images');
-
-                $project->projectImages()->create([
-                    'file_path' => $path,
-                    'date' => $date
-                ]);
-            }
-        }
-
-        return redirect()->route('projects.index')->with('success', 'Successfully Added A New Project!');
+        return response()->json([
+            'success' => true,
+            'redirect' => route('projects.index')
+        ]);
     }
 
 

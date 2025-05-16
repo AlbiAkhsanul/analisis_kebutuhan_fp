@@ -126,8 +126,8 @@
                                 <td><input type="date" name="tanggal_milestone_20" class="form-control"></td>
                                 <td>
                                     <select name="status_milestone_20" class="form-select">
-                                        <option value="lunas">Lunas</option>
                                         <option value="pending">Pending</option>
+                                        <option value="lunas">Lunas</option>
                                         <option value="hutang">Hutang</option>
                                         <option value="piutang">Piutang</option>
                                     </select>
@@ -139,8 +139,8 @@
                                 <td><input type="date" name="tanggal_milestone_50" class="form-control"></td>
                                 <td>
                                     <select name="status_milestone_50" class="form-select">
-                                        <option value="lunas">Lunas</option>
                                         <option value="pending">Pending</option>
+                                        <option value="lunas">Lunas</option>
                                         <option value="hutang">Hutang</option>
                                         <option value="piutang">Piutang</option>
                                     </select>
@@ -152,8 +152,8 @@
                                 <td><input type="date" name="tanggal_milestone_80" class="form-control"></td>
                                 <td>
                                     <select name="status_milestone_80" class="form-select">
-                                        <option value="lunas">Lunas</option>
                                         <option value="pending">Pending</option>
+                                        <option value="lunas">Lunas</option>
                                         <option value="hutang">Hutang</option>
                                         <option value="piutang">Piutang</option>
                                     </select>
@@ -165,8 +165,8 @@
                                 <td><input type="date" name="tanggal_milestone_100" class="form-control"></td>
                                 <td>
                                     <select name="status_milestone_100" class="form-select">
-                                        <option value="lunas">Lunas</option>
                                         <option value="pending">Pending</option>
+                                        <option value="lunas">Lunas</option>
                                         <option value="hutang">Hutang</option>
                                         <option value="piutang">Piutang</option>
                                     </select>
@@ -223,7 +223,7 @@
             <div id="fotoSummary" class="mt-3"></div>
 
             <div class="mt-3">
-                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
+                <button id="submitProjectBtn" type="button" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
                     Tambah Data Proyek
                 </button>
             </div>
@@ -388,7 +388,8 @@ if (!valid) return;
   documentCount = 0;
 });
 
-document.getElementById('submitProjectBtn').addEventListener('click', function () {
+document.getElementById('submitProjectBtn').addEventListener('click', function (event) {
+    event.preventDefault();
   const form = document.getElementById('projectForm'); // form utama
   const formData = new FormData(form);
 
@@ -400,6 +401,11 @@ document.getElementById('submitProjectBtn').addEventListener('click', function (
     });
   });
 
+//   for (let pair of formData.entries()) {
+//   console.log(pair[0] + ':', pair[1]);
+// }
+// return;
+
   // Kirim manual via fetch/AJAX
   fetch(form.action, {
     method: 'POST',
@@ -409,6 +415,9 @@ document.getElementById('submitProjectBtn').addEventListener('click', function (
     }
   })
     .then(response => {
+    // console.log('Response status:', response.status);
+    // console.log('Is redirected:', response.redirected);
+    // return;
       if (response.redirected) {
         window.location.href = response.url; // Redirect jika sukses
       } else {
@@ -423,6 +432,9 @@ document.getElementById('submitProjectBtn').addEventListener('click', function (
       alert('Terjadi kesalahan saat menyimpan proyek.');
     });
 });
+
+
+
 
 </script>
 @endsection
