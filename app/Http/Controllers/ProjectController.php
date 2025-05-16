@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\ProjectImage;
 use App\Models\Partner;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -44,11 +46,49 @@ class ProjectController extends Controller
     {
         $validatedData = $request->validated();
 
+        // Simpan proyek terlebih dahulu
         $project = Project::create($validatedData);
 
+        // Relasi many-to-many
         $project->types()->sync($validatedData['jenis_proyek']);
 
-        return redirect()->route('projects.index')->with('success', 'Succesfully Added A New Project!');
+        if ($request->hasFile('project_images')) {
+            foreach ($request->file('project_images') as $image) {
+                $path = $image->store('public/projectImages');
+
+                // Simpan ke tabel ProjectImage
+                ProjectImage::create([
+                    'project_id' => $project->id,
+                    'file_foto' => $path,
+                ]);
+            }
+        }
+
+        if ($request->hasFile('invoices')) {
+            foreach ($request->file('invoices') as $image) {
+                $path = $image->store('public/projectInvoices');
+
+                // Simpan ke tabel ProjectImage
+                ProjectImage::create([
+                    'project_id' => $project->id,
+                    'file_foto' => $path,
+                ]);
+            }
+        }
+
+        if ($request->hasFile('letters')) {
+            foreach ($request->file('letters') as $image) {
+                $path = $image->store('public/projectLetters');
+
+                // Simpan ke tabel ProjectImage
+                ProjectImage::create([
+                    'project_id' => $project->id,
+                    'file_foto' => $path,
+                ]);
+            }
+        }
+
+        return redirect()->route('projects.index')->with('success', 'Successfully Added A New Project!');
     }
 
     /**
@@ -96,8 +136,19 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // Hapus semua gambar terkait dari storage
+        foreach ($project->images as $image) {
+            if (Storage::exists($image->file_foto)) {
+                Storage::delete($image->file_foto);
+            }
+
+            // Hapus record gambar dari database (optional jika pakai cascade delete)
+            $image->delete();
+        }
+
+        // Hapus proyek
         $project->delete();
 
-        return redirect('projects.index')->with('success', 'Succesfully Deleted A Project!');
+        return redirect()->route('projects.index')->with('success', 'Successfully Deleted A Project!');
     }
 }

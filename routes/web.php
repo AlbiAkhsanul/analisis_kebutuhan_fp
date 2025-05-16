@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectImageController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*
@@ -32,6 +33,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::Resource('projects', ProjectController::class);
+    Route::Resource('projectImages', ProjectImageController::class);
     Route::Resource('partners', PartnerController::class);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
