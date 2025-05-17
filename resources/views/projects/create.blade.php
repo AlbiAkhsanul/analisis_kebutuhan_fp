@@ -14,6 +14,17 @@
         <div class="pb-3 border-b border-gray-500 mb-2">
             <h3 class="text-lg font-bold mb-1">Menambahkan Data Proyek Baru</h3>
         </div>
+        <div id="errorBox"></div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form id="projectForm" action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -35,7 +46,7 @@
 
                 <div class="mb-3 w-25">
                     <label class="form-label fs-5">Tanggal Proyek Dimulai</label>
-                    <input type="date" name="tanggal_proyek" class="form-control" required>
+                    <input type="date" name="tanggal_project" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
@@ -69,12 +80,12 @@
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-3">
                     <label class="form-label fs-5">Rencana Anggaran Produksi</label>
-                    <input type="number" name="anggaran_produksi" class="form-control">
+                    <input type="number" name="rencana_anggaran_produksi" class="form-control">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fs-5">Rencana Anggaran Biaya</label>
-                    <input type="number" name="anggaran_biaya" class="form-control">
+                    <input type="number" name="rencana_anggaran_biaya" class="form-control">
                 </div>
             </div>
 
@@ -223,7 +234,7 @@
             <div id="fotoSummary" class="mt-3"></div>
 
             <div class="mt-3">
-                <button id="submitProjectBtn" type="button" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
+                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
                     Tambah Data Proyek
                 </button>
             </div>
@@ -388,53 +399,60 @@ if (!valid) return;
   documentCount = 0;
 });
 
-document.getElementById('submitProjectBtn').addEventListener('click', function (event) {
-    event.preventDefault();
-  const form = document.getElementById('projectForm'); // form utama
-  const formData = new FormData(form);
+// document.getElementById('submitProjectBtn').addEventListener('click', function (event) {
+//   event.preventDefault();
+//   const form = document.getElementById('projectForm'); // form utama
+//   const formData = new FormData(form);
 
-  // Tambahkan dokumen yang diunggah ke FormData
-  ['invoice', 'surat', 'foto'].forEach((type) => {
-    uploadedDocuments[type].forEach((doc, index) => {
-      formData.append(`${type}[${index}][file]`, doc.file);
-      formData.append(`${type}[${index}][date]`, doc.date);
-    });
-  });
+//   // Tambahkan dokumen yang diunggah ke FormData
+//   ['invoice', 'surat', 'foto'].forEach((type) => {
+//     uploadedDocuments[type].forEach((doc, index) => {
+//       formData.append(`${type}[${index}][file]`, doc.file);
+//       formData.append(`${type}[${index}][date]`, doc.date);
+//     });
+//   });
 
-//   for (let pair of formData.entries()) {
-//   console.log(pair[0] + ':', pair[1]);
-// }
-// return;
+//   // for (let pair of formData.entries()) {
+//   //   console.log(pair[0] + ':', pair[1]);
+//   // }
+//   // return;
 
-  // Kirim manual via fetch/AJAX
-  fetch(form.action, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-    }
-  })
-    .then(response => {
-    // console.log('Response status:', response.status);
-    // console.log('Is redirected:', response.redirected);
-    // return;
-      if (response.redirected) {
-        window.location.href = response.url; // Redirect jika sukses
-      } else {
-        return response.json().then(err => {
-          console.error('Validation errors:', err);
-          alert('Gagal menyimpan data proyek. Cek kembali inputan Anda.');
-        });
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Terjadi kesalahan saat menyimpan proyek.');
-    });
-});
-
-
-
+//   // Kirim manual via fetch/AJAX
+//   fetch(form.action, {
+//     method: 'POST',
+//     body: formData,
+//     headers: {
+//       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+//     }
+//   })
+//     .then(response => {
+//     console.log('Response status:', response.status);
+//     console.log('Is redirected:', response.redirected);
+//     console.log('Status:', response.status);
+//     console.log('Redirected:', response.redirected);
+//     console.log('Redirect URL:', response.url);
+//     return;
+//       if (response.redirected) {
+//         window.location.href = response.url; 
+//       } else {
+//         return response.json().then(err => {
+//           console.error('Validation errors:', err);
+//           // Tampilkan error di UI, misalnya:
+//           const errorBox = document.getElementById('errorBox');
+//           errorBox.innerHTML = '';
+//           Object.values(err.errors).forEach(errorMessages => {
+//             errorMessages.forEach(msg => {
+//               errorBox.innerHTML += `<div class="alert alert-danger">${msg}</div>`;
+//             });
+//           });
+//         });
+//       }
+//     })
+//     .catch(error => {
+//       console.error('Error:', error);
+//       alert('Terjadi kesalahan saat menyimpan proyek.');
+//     });
+// });
 
 </script>
 @endsection

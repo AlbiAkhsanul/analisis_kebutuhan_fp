@@ -28,9 +28,9 @@ class ProjectAndTypesTableSeeder extends Seeder
         }
 
         $project = Project::create([
-            'nama_project' => 'Gedung Baru XYZ',
+            'nama_proyek' => 'Gedung Baru XYZ',
             'partner_id' => 1,
-            'tanggal_project' => '2023-05-14',
+            'tanggal_proyek' => '2023-05-14',
             'estimasi_lama' => 27,
             'rencana_anggaran_produksi' => 2000000000,
             'rencana_anggaran_biaya' => 180000000000,
@@ -45,7 +45,7 @@ class ProjectAndTypesTableSeeder extends Seeder
             'tanggal_milestone_50' => '2024-06-28',
             'tanggal_milestone_80' => '2024-11-08',
             'tanggal_milestone_100' => null,
-            'status_project' => 'aktif',
+            'status_proyek' => 'aktif',
             'lokasi' => 'Wonokromo, Surabaya'
         ]);
 

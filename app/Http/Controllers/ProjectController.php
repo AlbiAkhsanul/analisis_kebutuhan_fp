@@ -43,7 +43,13 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        // dd($request);
+        try {
+            $validatedData = $request->validated();
+            dd('Validated Data:', $validatedData);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            dd('Validation Errors:', $e->errors());
+        }
+
         $validatedData = $request->validated();
 
         // Simpan data proyek
@@ -51,55 +57,6 @@ class ProjectController extends Controller
 
         // Simpan relasi jenis proyek
         $project->types()->sync($validatedData['jenis_proyek']);
-
-        // ============================
-        // Simpan dokumen tambahan
-        // ============================
-
-        // // Invoice
-        // if ($request->has('invoice')) {
-        //     foreach ($request->file('invoice') as $index => $fileData) {
-        //         $file = $fileData['file'];
-        //         $date = $request->input("invoice.{$index}.date");
-
-        //         $path = $file->store('projectInvoices');
-
-        //         $project->invoices()->create([
-        //             'file_path' => $path,
-        //             'date' => $date
-        //         ]);
-        //     }
-        // }
-
-        // // Surat
-        // if ($request->has('surat')) {
-        //     foreach ($request->file('surat') as $index => $fileData) {
-        //         $file = $fileData['file'];
-        //         $date = $request->input("surat.{$index}.date");
-
-        //         $path = $file->store('projectLetters');
-
-        //         $project->letters()->create([
-        //             'file_path' => $path,
-        //             'date' => $date
-        //         ]);
-        //     }
-        // }
-
-        // // Foto
-        // if ($request->has('foto')) {
-        //     foreach ($request->file('foto') as $index => $fileData) {
-        //         $file = $fileData['file'];
-        //         $date = $request->input("foto.{$index}.date");
-
-        //         $path = $file->store('projectImages');
-
-        //         $project-images()->create([
-        //             'file_path' => $path,
-        //             'date' => $date
-        //         ]);
-        //     }
-        // }
 
         foreach (['invoice' => 'projectInvoices', 'surat' => 'projectLetters', 'foto' => 'projectImages'] as $key => $folder) {
             if ($request->has($key)) {

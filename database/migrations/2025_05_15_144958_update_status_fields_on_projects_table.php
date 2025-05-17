@@ -32,7 +32,7 @@ return new class extends Migration
             $table->date('tanggal_milestone_50')->nullable();
             $table->date('tanggal_milestone_80')->nullable();
             $table->date('tanggal_milestone_100')->nullable();
-            $table->enum('status_project', ['pending', 'aktif', 'selesai', 'batal'])->default('pending');
+            $table->enum('status_proyek', ['pending', 'aktif', 'selesai', 'batal'])->default('pending');
         });
     }
 
@@ -52,7 +52,7 @@ return new class extends Migration
                 'tanggal_milestone_50',
                 'tanggal_milestone_80',
                 'tanggal_milestone_100',
-                'status_project'
+                'status_proyek'
             ]);
         });
 

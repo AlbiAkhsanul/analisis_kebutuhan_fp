@@ -22,8 +22,9 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_project' => 'required|string|max:255',
-            'tanggal_project' => 'required|date',
+            'nama_proyek' => 'required|string|max:255',
+            'tanggal_proyek' => 'required|date',
+            'lokasi' => 'required|string|max:1024',
             'estimasi_lama' => 'required|integer|min:0',
             'rencana_anggaran_produksi' => 'required|integer|min:0',
             'rencana_anggaran_biaya' => 'required|integer|min:0',
@@ -37,7 +38,7 @@ class StoreProjectRequest extends FormRequest
             'status_inspeksi_logistik' => 'required|in:pending,diterima,ditolak',
             'status_ajuhan_upahan' => 'required|in:pending,diterima,ditolak',
 
-            'status_project' => 'required|in:pending,aktif,selesaibatal',
+            'status_proyek' => 'required|in:pending,aktif,selesaibatal',
 
             'status_milestone_20' => 'required|in:pending,hutang,piutang,lunas',
             'status_milestone_50' => 'required|in:pending,hutang,piutang,lunas',
