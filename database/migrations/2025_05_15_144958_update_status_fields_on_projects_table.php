@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn([
-                'status_penajuan_kebutuhan_material',
+                'status_pengajuan_kebutuhan_material',
                 'status_inspeksi_logistik',
                 'status_ajuhan_upahan',
                 'milestone_20',
@@ -21,7 +21,7 @@ return new class extends Migration
         });
 
         Schema::table('projects', function (Blueprint $table) {
-            $table->enum('status_penajuan_kebutuhan_material', ['pending', 'diterima', 'ditolak'])->default('pending');
+            $table->enum('status_pengajuan_kebutuhan_material', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->enum('status_inspeksi_logistik', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->enum('status_ajuhan_upahan', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->enum('status_milestone_20', ['pending', 'hutang', 'piutang', 'lunas'])->default('pending');
@@ -41,7 +41,7 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             // Rollback to boolean
             $table->dropColumn([
-                'status_penajuan_kebutuhan_material',
+                'status_pengajuan_kebutuhan_material',
                 'status_inspeksi_logistik',
                 'status_ajuhan_upahan',
                 'status_milestone_20',
@@ -57,7 +57,7 @@ return new class extends Migration
         });
 
         Schema::table('projects', function (Blueprint $table) {
-            $table->boolean('status_penajuan_kebutuhan_material')->default(false);
+            $table->boolean('status_pengajuan_kebutuhan_material')->default(false);
             $table->boolean('status_inspeksi_logistik')->default(false);
             $table->boolean('status_ajuhan_upahan')->default(false);
             $table->boolean('milestone_20')->default(false);

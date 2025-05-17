@@ -35,6 +35,16 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label fs-5">Status Proyek</label>
+                    <select name="status_proyek" class="form-select">
+                        <option value="pending">Pending</option>
+                        <option value="aktif">Aktif</option>
+                        <option value="selesai">Selesai</option>
+                        <option value="batal">Batal</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
                     <label for="partner" class="form-label fs-5">Partner</label>
                     <select name="partner_id" id="partner" class="form-select">
                         <option value="" disabled selected>Pilih Partner</option>
@@ -46,7 +56,7 @@
 
                 <div class="mb-3 w-25">
                     <label class="form-label fs-5">Tanggal Proyek Dimulai</label>
-                    <input type="date" name="tanggal_project" class="form-control" required>
+                    <input type="date" name="tanggal_proyek" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
@@ -92,7 +102,7 @@
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-3">
                     <label class="form-label fs-5">Status Pengajuan Kebutuhan Material</label>
-                    <select name="status_kebutuhan" class="form-select">
+                    <select name="status_pengajuan_kebutuhan_material" class="form-select">
                         <option value="pending">Pending</option>
                         <option value="diterima">Diterima</option>
                         <option value="ditolak">Ditolak</option>
@@ -101,7 +111,7 @@
 
                 <div class="mb-3">
                     <label class="form-label fs-5">Status Inspeksi Logistik</label>
-                    <select name="status_logistik" class="form-select">
+                    <select name="status_inspeksi_logistik" class="form-select">
                         <option value="pending">Pending</option>
                         <option value="diterima">Diterima</option>
                         <option value="ditolak">Ditolak</option>
@@ -110,7 +120,7 @@
 
                 <div class="mb-3">
                     <label class="form-label fs-5">Status Ajuan Upahan</label>
-                    <select name="status_upahan" class="form-select">
+                    <select name="status_ajuhan_upahan" class="form-select">
                         <option value="pending">Pending</option>
                         <option value="diterima">Diterima</option>
                         <option value="ditolak">Ditolak</option>

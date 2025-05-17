@@ -34,7 +34,7 @@ class UpdateProjectRequest extends FormRequest
             'jenis_proyek' => 'nullable|array',
             'jenis_proyek.*' => 'exists:project_types,id',
 
-            'status_penajuan_kebutuhan_material' => 'sometimes|required|in:pending,diterima,ditolak',
+            'status_pengajuan_kebutuhan_material' => 'sometimes|required|in:pending,diterima,ditolak',
             'status_inspeksi_logistik' => 'sometimes|required|in:pending,diterima,ditolak',
             'status_ajuhan_upahan' => 'sometimes|required|in:pending,diterima,ditolak',
 

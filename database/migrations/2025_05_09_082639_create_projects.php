@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('estimasi_lama');
             $table->bigInteger('rencana_anggaran_produksi');
             $table->bigInteger('rencana_anggaran_biaya');
-            $table->boolean('status_penajuan_kebutuhan_material')->default(false);
+            $table->boolean('status_pengajuan_kebutuhan_material')->default(false);
             $table->boolean('status_inspeksi_logistik')->default(false);
             $table->boolean('status_ajuhan_upahan')->default(false);
             $table->boolean('milestone_20')->default(false);

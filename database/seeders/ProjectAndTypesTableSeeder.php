@@ -34,7 +34,7 @@ class ProjectAndTypesTableSeeder extends Seeder
             'estimasi_lama' => 27,
             'rencana_anggaran_produksi' => 2000000000,
             'rencana_anggaran_biaya' => 180000000000,
-            'status_penajuan_kebutuhan_material' => 'diterima',
+            'status_pengajuan_kebutuhan_material' => 'diterima',
             'status_inspeksi_logistik' => 'diterima',
             'status_ajuhan_upahan' => 'diterima',
             'status_milestone_20' => 'lunas',
