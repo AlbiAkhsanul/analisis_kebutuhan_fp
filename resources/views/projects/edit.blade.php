@@ -14,14 +14,33 @@
         <div class="pb-3 border-b border-gray-500 mb-2">
             <h3 class="text-lg font-bold mb-1">Edit Data Proyek</h3>
         </div>
-        <form action="{{ route('projects.update', $project->id) }}" method="POST">
+        @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+        <form id="projectForm" action="{{ route('projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-3">
                     <label class="form-label fs-5">Nama Proyek</label>
-                    <input type="text" name="nama_proyek" class="form-control" value="{{ $project->nama_project }}" required>
+                    <input type="text" name="nama_proyek" class="form-control" value="{{ $project->nama_proyek }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fs-5">Status Proyek</label>
+                    <select name="status_proyek" class="form-select">
+                        <option value="pending" {{ $project->status_proyek == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="aktif" {{ $project->status_proyek == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                        <option value="selesai" {{ $project->status_proyek == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                        <option value="batal" {{ $project->status_proyek == 'batal' ? 'selected' : '' }}>Batal</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -38,7 +57,7 @@
 
                 <div class="mb-3 w-25">
                     <label class="form-label fs-5">Tanggal Proyek Dimulai</label>
-                    <input type="date" name="tanggal_proyek" class="form-control" value="{{ $project->tanggal_project}}" required>
+                    <input type="date" name="tanggal_proyek" class="form-control" value="{{ $project->tanggal_proyek}}" required>
                 </div>
 
                 <div class="mb-3">
@@ -76,47 +95,46 @@
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-3">
                     <label class="form-label fs-5">Rencana Anggaran Produksi</label>
-                    <input type="number" name="anggaran_produksi" class="form-control" value="{{ $project->rencana_anggaran_produksi }}">
+                    <input type="number" name="rencana_anggaran_produksi" class="form-control" value="{{ $project->rencana_anggaran_produksi }}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fs-5">Rencana Anggaran Biaya</label>
-                    <input type="number" name="anggaran_biaya" class="form-control" value="{{ $project->rencana_anggaran_biaya }}">
+                    <input type="number" name="rencana_anggaran_biaya" class="form-control" value="{{ $project->rencana_anggaran_biaya }}">
                 </div>
             </div>
 
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-3">
                     <label class="form-label fs-5">Status Pengajuan Kebutuhan Material</label>
-                    <select name="status_kebutuhan" class="form-select">
-                        <option value="diterima" {{ $project->status_kebutuhan == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                        <option value="pending" {{ $project->status_kebutuhan == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="ditolak" {{ $project->status_kebutuhan == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    <select name="status_pengajuan_kebutuhan_material" class="form-select">
+                        <option value="pending" {{ $project->status_pengajuan_kebutuhan_material == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="diterima" {{ $project->status_pengajuan_kebutuhan_material == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                        <option value="ditolak" {{ $project->status_pengajuan_kebutuhan_material == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fs-5">Status Inspeksi Logistik</label>
-                    <select name="status_logistik" class="form-select">
-                        <option value="diterima" {{ $project->status_logistik == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                        <option value="pending" {{ $project->status_logistik == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="ditolak" {{ $project->status_logistik == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    <select name="status_inspeksi_logistik" class="form-select">
+                        <option value="pending" {{ $project->status_inspeksi_logistik == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="diterima" {{ $project->status_inspeksi_logistik == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                        <option value="ditolak" {{ $project->status_inspeksi_logistik == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fs-5">Status Ajuan Upahan</label>
-                    <select name="status_upahan" class="form-select">
-                        <option value="diterima" {{ $project->status_upahan == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                        <option value="pending" {{ $project->status_upahan == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="ditolak" {{ $project->status_upahan == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    <label class="form-label fs-5">Status Ajuhan Upahan</label>
+                    <select name="status_ajuhan_upahan" class="form-select">
+                        <option value="pending" {{ $project->status_ajuhan_upahan == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="diterima" {{ $project->status_ajuhan_upahan == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                        <option value="ditolak" {{ $project->status_ajuhan_upahan == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                     </select>
                 </div>
             </div>
 
             <div class="py-3 border-b border-gray-500">
                 <div class="mb-4 w-50">
-                    {{-- <label class="form-label fs-5 mb-2">Milestones</label> --}}
                     <table class="table table-borderless" style="background-color: transparent;">
                         <thead>
                             <tr>
@@ -184,25 +202,83 @@
                 </div>
             </div>
 
-            <div class="mt-4 d-flex gap-6 mb-6">
-                 {{-- <a href="{{ route('invoice.show', $project['id']) }}" class="btn btn-outline-primary d-flex align-items-center">
-                     <i class="bi bi-receipt-cutoff me-2"></i> Lihat Invoice
-                 </a>
-                 <a href="{{ route('documents.show', $project['id']) }}" class="btn btn-outline-success d-flex align-items-center">
-                     <i class="bi bi-file-earmark-text me-2"></i> Lihat Surat-Surat
-                 </a>
-                 <a href="{{ route('photos.show', $project['id']) }}" class="btn btn-outline-secondary d-flex align-items-center">
-                     <i class="bi bi-image me-2"></i> Lihat Foto Proyek
-                 </a> --}}
-                 <a href="/" class="btn btn-outline-primary d-flex align-items-center me-6">
-                     <i class="bi bi-receipt-cutoff me-2"></i> Edit Invoice
-                 </a>
-                 <a href="/" class="btn btn-outline-success d-flex align-items-center me-6">
-                     <i class="bi bi-file-earmark-text me-2"></i> Edit Surat-Surat
-                 </a>
-                 <a href="/" class="btn btn-outline-secondary d-flex align-items-center me-6">
-                     <i class="bi bi-image me-2"></i> Edit Foto Proyek
-                </a>
+            <div class="py-3 border-b border-gray-500">
+                {{-- ================= FOTO LAMA ================= --}}
+                <h5>Foto Lama</h5>
+                @foreach($project->images as $index => $image)
+                    <div class="foto-lama border rounded p-3 position-relative bg-light mb-3">
+                        <div class="mb-2">
+                            <label class="form-label">File Gambar</label><br>
+                            <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Tanggal Gambar</label>
+                            <input type="date" name="foto_lama[{{ $image->id }}][date]" value="{{ $image->tanggal_dokumen }}" class="form-control">
+                        </div>
+                        <input type="hidden" name="foto_lama[{{ $image->id }}][id]" value="{{ $image->id }}">
+                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusFotoLama(this)">Hapus</button>
+                    </div>
+                @endforeach
+                <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
+
+                {{-- ================= INVOICE LAMA ================= --}}
+                <h5>Invoice Lama</h5>
+                @foreach($project->invoices as $index => $invoice)
+                    <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
+                        <div class="mb-2">
+                            <label class="form-label">File Invoice</label><br>
+                            <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Tanggal Invoice</label>
+                            <input type="date" name="invoice_lama[{{ $invoice->id }}][date]" value="{{ $invoice->tanggal_dokumen }}" class="form-control">
+                        </div>
+                        <input type="hidden" name="invoice_lama[{{ $invoice->id }}][id]" value="{{ $invoice->id }}">
+                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusInvoiceLama(this)">Hapus</button>
+                    </div>
+                @endforeach
+                <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
+
+                {{-- ================= SURAT LAMA ================= --}}
+                <h5>Surat Lama</h5>
+                @foreach($project->letters as $index => $letter)
+                    <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
+                        <div class="mb-2">
+                            <label class="form-label">File Surat</label><br>
+                            <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Tanggal Surat</label>
+                            <input type="date" name="surat_lama[{{ $letter->id }}][date]" value="{{ $letter->tanggal_dokumen }}" class="form-control">
+                        </div>
+                        <input type="hidden" name="surat_lama[{{ $letter->id }}][id]" value="{{ $letter->id }}">
+                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusSuratLama(this)">Hapus</button>
+                    </div>
+                @endforeach
+                <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">
+            </div>
+
+            <div class="py-3 border-b border-gray-500">
+              {{-- ================= GAMBAR ================= --}}
+              <div class="mb-4">
+                <h5>Upload Gambar</h5>
+                <div id="fotoContainer"></div>
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
+              </div>
+
+              {{-- ================= INVOICE ================= --}}
+              <div class="mb-4">
+                <h5>Upload Invoice</h5>
+                <div id="invoiceContainer"></div>
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
+              </div>
+
+              {{-- ================= SURAT ================= --}}
+              <div class="mb-4">
+                <h5>Upload Surat</h5>
+                <div id="suratContainer"></div>
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
+              </div>
             </div>
 
             <div class="mt-4">
@@ -213,4 +289,136 @@
         </form>
     </div>
 </div>
+<script>
+  function validateForm() {
+  const fotoInputs = document.querySelectorAll('[name^="foto["]');
+  const invoiceInputs = document.querySelectorAll('[name^="invoice["]');
+  const suratInputs = document.querySelectorAll('[name^="surat["]');
+
+  let isValid = true;
+  const requiredFields = [...fotoInputs, ...invoiceInputs, ...suratInputs];
+
+  requiredFields.forEach(input => {
+    input.classList.remove('is-invalid'); // reset dulu
+    if (!input.value) {
+      input.classList.add('is-invalid');
+      isValid = false;
+    }
+  });
+
+  if (!isValid) {
+    alert('Semua file dan tanggal harus diisi.');
+  }
+
+  return isValid; // kalau false, form tidak akan dikirim
+  }
+
+  function checkInput(input) {
+    if (!input.value) {
+      input.classList.add('is-invalid');
+    } else {
+      input.classList.remove('is-invalid');
+    }
+  }
+
+
+  let fotoIndex = 0, invoiceIndex = 0, suratIndex = 0;
+
+  function addFoto() {
+    const container = document.getElementById('fotoContainer');
+    const div = document.createElement('div');
+    div.classList.add('mb-3');
+    div.innerHTML = `
+      <div class="border rounded p-3 position-relative bg-light">
+        <div class="mb-2">
+          <label class="form-label">File Gambar</label>
+          <input type="file" name="foto[${fotoIndex}][file]" accept="image/*" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">File gambar wajib diisi.</div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Tanggal Gambar</label>
+          <input type="date" name="foto[${fotoIndex}][date]" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">Tanggal gambar wajib diisi.</div>
+        </div>
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
+      </div>
+    `;
+    container.appendChild(div);
+    fotoIndex++;
+  }
+
+  function addInvoice() {
+    const container = document.getElementById('invoiceContainer');
+    const div = document.createElement('div');
+    div.classList.add('mb-3');
+    div.innerHTML = `
+      <div class="border rounded p-3 position-relative bg-light">
+        <div class="mb-2">
+          <label class="form-label">File Invoice (PDF)</label>
+          <input type="file" name="invoice[${invoiceIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">File invoice wajib diisi.</div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Tanggal Invoice</label>
+          <input type="date" name="invoice[${invoiceIndex}][date]" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">Tanggal invoice wajib diisi.</div>
+        </div>
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
+      </div>
+    `;
+    container.appendChild(div);
+    invoiceIndex++;
+  }
+
+  function addSurat() {
+    const container = document.getElementById('suratContainer');
+    const div = document.createElement('div');
+    div.classList.add('mb-3');
+    div.innerHTML = `
+      <div class="border rounded p-3 position-relative bg-light">
+        <div class="mb-2">
+          <label class="form-label">File surat (PDF)</label>
+          <input type="file" name="surat[${suratIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">File surat wajib diisi.</div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Tanggal surat</label>
+          <input type="date" name="surat[${suratIndex}][date]" class="form-control" required onblur="checkInput(this)">
+          <div class="invalid-feedback">Tanggal surat wajib diisi.</div>
+        </div>
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
+      </div>
+    `;
+    container.appendChild(div);
+    suratIndex++;
+  }
+
+    let hapusFotoLamaIds = [];
+    let hapusInvoiceLamaIds = [];
+    let hapusSuratLamaIds = [];
+
+    function hapusFotoLama(button) {
+        const container = button.closest('.foto-lama');
+        const id = container.querySelector('input[name^="foto_lama"][name$="[id]"]').value;
+        hapusFotoLamaIds.push(id);
+        container.remove();
+        document.getElementById('hapusFotoLamaIds').value = hapusFotoLamaIds.join(',');
+    }
+
+    function hapusInvoiceLama(button) {
+        const container = button.closest('.invoice-lama');
+        const id = container.querySelector('input[name^="invoice_lama"][name$="[id]"]').value;
+        hapusInvoiceLamaIds.push(id);
+        container.remove();
+        document.getElementById('hapusInvoiceLamaIds').value = hapusInvoiceLamaIds.join(',');
+    }
+
+    function hapusSuratLama(button) {
+        const container = button.closest('.surat-lama');
+        const id = container.querySelector('input[name^="surat_lama"][name$="[id]"]').value;
+        hapusSuratLamaIds.push(id);
+        container.remove();
+        document.getElementById('hapusSuratLamaIds').value = hapusSuratLamaIds.join(',');
+    }
+</script>
 @endsection

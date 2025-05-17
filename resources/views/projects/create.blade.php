@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fs-5">Status Ajuan Upahan</label>
+                    <label class="form-label fs-5">Status Ajuhan Upahan</label>
                     <select name="status_ajuhan_upahan" class="form-select">
                         <option value="pending">Pending</option>
                         <option value="diterima">Diterima</option>

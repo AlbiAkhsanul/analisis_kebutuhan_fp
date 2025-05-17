@@ -116,6 +116,8 @@ class ProjectController extends Controller
 
         $project->types()->sync($validatedData['jenis_proyek']);
 
+        $this->handleAttachments($request, $project);
+
         return redirect('/projects')->with('success', 'Succesfully Added A Project!');
     }
 
@@ -139,5 +141,83 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', 'Successfully Deleted A Project!');
+    }
+
+    private function handleAttachments(Request $request, Project $project)
+    {
+        // ========== UPDATE FILE LAMA ==========
+        foreach (
+            [
+                'foto_lama' => ['model' => \App\Models\ProjectImage::class, 'date_field' => 'tanggal_dokumen'],
+                'invoice_lama' => ['model' => \App\Models\Invoice::class, 'date_field' => 'tanggal_dokumen'],
+                'surat_lama' => ['model' => \App\Models\Letter::class, 'date_field' => 'tanggal_dokumen'],
+            ] as $key => $config
+        ) {
+            if ($request->has($key)) {
+                foreach ($request->input($key) as $id => $data) {
+                    $record = $config['model']::find($id);
+                    if ($record && $record->project_id == $project->id) {
+                        $record->update([
+                            $config['date_field'] => $data['date'],
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // ========== HAPUS FILE LAMA ==========
+        foreach (
+            [
+                'hapus_foto_lama' => \App\Models\ProjectImage::class,
+                'hapus_invoice_lama' => \App\Models\Invoice::class,
+                'hapus_surat_lama' => \App\Models\Letter::class,
+            ] as $key => $model
+        ) {
+            if ($request->filled($key)) {
+                $ids = $request->input($key);
+
+                if (is_string($ids)) {
+                    $ids = explode(',', $ids);
+                }
+
+                $ids = array_filter($ids, fn($id) => !is_null($id) && $id !== '');
+                // var_dump("Processing $key", $ids);
+
+                if (count($ids) > 0) {
+                    $items = $model::whereIn('id', $ids)->get();
+                    foreach ($items as $item) {
+                        if ($item->file_dokumen && Storage::disk('public')->exists($item->file_dokumen)) {
+                            Storage::disk('public')->delete($item->file_dokumen);
+                        }
+                    }
+
+                    $deletedCount = $model::whereIn('id', $ids)->delete();
+                    // var_dump("Deleted from $key: ", $deletedCount);
+                }
+            }
+        }
+
+        // ========== TAMBAH FILE BARU ==========
+        foreach (['foto' => 'projectImages', 'invoice' => 'projectInvoices', 'surat' => 'projectLetters'] as $key => $folder) {
+            if ($request->has($key)) {
+                foreach ($request->file($key) as $index => $fileData) {
+                    $file = $fileData['file'];
+                    $date = $request->input("{$key}.{$index}.date");
+                    $filename = uniqid() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs($folder, $filename, 'public');
+
+                    $relation = match ($key) {
+                        'foto' => 'images',
+                        'invoice' => 'invoices',
+                        'surat' => 'letters',
+                    };
+
+                    $project->{$relation}()->create([
+                        'file_dokumen' => $path,
+                        'tanggal_dokumen' => $date,
+                    ]);
+                }
+            }
+        }
     }
 }
