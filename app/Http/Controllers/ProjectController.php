@@ -43,12 +43,12 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
-            dd('Validated Data:', $validatedData);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            dd('Validation Errors:', $e->errors());
-        }
+        // try {
+        //     $validatedData = $request->validated();
+        //     dd('Validated Data:', $validatedData);
+        // } catch (\Illuminate\Validation\ValidationException $e) {
+        //     dd('Validation Errors:', $e->errors());
+        // }
 
         $validatedData = $request->validated();
 
@@ -79,10 +79,7 @@ class ProjectController extends Controller
             }
         }
 
-        return response()->json([
-            'success' => true,
-            'redirect' => route('projects.index')
-        ]);
+        return redirect('projects.index')->with('success', 'Succesfully Added A Project!');
     }
 
 

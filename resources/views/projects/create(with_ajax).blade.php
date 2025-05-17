@@ -14,15 +14,17 @@
         <div class="pb-3 border-b border-gray-500 mb-2">
             <h3 class="text-lg font-bold mb-1">Menambahkan Data Proyek Baru</h3>
         </div>
+        <div id="errorBox"></div>
         @if ($errors->any())
-          <div class="alert alert-danger">
-            <ul class="mb-0">
-              @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-          </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
+
         <form id="projectForm" action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -196,140 +198,274 @@
                 </div>
             </div>
 
-            <div class="py-3 border-b border-gray-500">
-              {{-- ================= GAMBAR ================= --}}
-              <div class="mb-4">
-                <h5>Upload Gambar</h5>
-                <div id="fotoContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
-              </div>
+            <!-- Modal Upload Dokumen Serbaguna -->
+            <div class="modal fade" id="uploadDocumentModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentModalTitle">Upload Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="documentList">
+                    <!-- Baris dokumen akan ditambahkan di sini -->
+                    </div>
 
-              {{-- ================= INVOICE ================= --}}
-              <div class="mb-4">
-                <h5>Upload Invoice</h5>
-                <div id="invoiceContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
-              </div>
+                    <button type="button" class="btn btn-secondary my-2" id="addDocumentRowBtn">+ Tambah Dokumen</button>
 
-              {{-- ================= SURAT ================= --}}
-              <div class="mb-4">
-                <h5>Upload Surat</h5>
-                <div id="suratContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
-              </div>
+                    <div class="text-end">
+                    <button type="button" class="btn btn-primary" id="saveDocumentsBtn">Simpan</button>
+                    </div>
+                </div>
+                </div>
+            </div>
             </div>
 
+            <div class="mt-4 d-flex gap-6 mb-6">
+                <button type="button" class="btn btn-outline-primary d-flex align-items-center me-6"
+                    onclick="openDocumentModal('invoice', 'Upload Invoice')">
+                    <i class="bi bi-receipt-cutoff me-2"></i> Tambah Invoice
+                </button>
+
+                <button type="button" class="btn btn-outline-success d-flex align-items-center me-6"
+                    onclick="openDocumentModal('surat', 'Upload Surat-Surat')">
+                    <i class="bi bi-file-earmark-text me-2"></i> Tambah Surat-Surat
+                </button>
+
+                <button type="button" class="btn btn-outline-info d-flex align-items-center me-6" 
+                    onclick="openDocumentModal('foto', 'Upload Gambar Proyek')">
+                    <i class="bi bi-image me-2"></i> Tambah Gambar Proyek
+                </button>
+            </div>
+            
+            <!-- Ringkasan dokumen -->
+            <div id="invoiceSummary" class="mt-3"></div>
+            <div id="suratSummary" class="mt-3"></div>
+            <div id="fotoSummary" class="mt-3"></div>
+
+            {{-- <div class="mt-3">
+                <button id="submitProjectBtnNormal" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
+                    Tambah Data Proyek
+                </button>
+            </div> --}}
             <div class="mt-3">
-                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
+                <button id="submitProjectBtn" type="button" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
                     Tambah Data Proyek
                 </button>
             </div>
         </form>
     </div>
 </div>
+
 <script>
-  function validateForm() {
-  const fotoInputs = document.querySelectorAll('[name^="foto["]');
-  const invoiceInputs = document.querySelectorAll('[name^="invoice["]');
-  const suratInputs = document.querySelectorAll('[name^="surat["]');
+const modalEl = document.getElementById('uploadDocumentModal');
+const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
 
-  let isValid = true;
-  const requiredFields = [...fotoInputs, ...invoiceInputs, ...suratInputs];
+// Event listener ini hanya ditambahkan satu kali saat halaman dimuat
+modalEl.addEventListener('shown.bs.modal', () => {
+  document.getElementById('saveDocumentsBtn').focus();
+});
 
-  requiredFields.forEach(input => {
-    input.classList.remove('is-invalid'); // reset dulu
-    if (!input.value) {
-      input.classList.add('is-invalid');
-      isValid = false;
+
+let currentDocumentType = '';
+let documentCount = 0;
+
+const uploadedDocuments = {
+  invoice: [],
+  surat: [],
+  foto: []
+};
+
+// Fungsi membuka modal upload dokumen
+function openDocumentModal(type, title) {
+  currentDocumentType = type;
+
+  // Cek apakah ada dokumen sebelumnya
+  const existingDocs = uploadedDocuments[type];
+  documentCount = 0;
+  document.getElementById('documentModalTitle').textContent = title;
+  document.getElementById('documentList').innerHTML = '';
+
+    if (existingDocs && existingDocs.length > 0) {
+    existingDocs.forEach((doc, idx) => {
+        addDocumentRow(doc, idx); // tambahkan index
+    });
+    } else {
+    addDocumentRow(); // baris baru kosong
     }
+
+  modal.show();
+}
+
+// Fungsi menambahkan baris form dokumen
+function addDocumentRow(existingData = null, index = null) {
+  documentCount++;
+  const container = document.getElementById('documentList');
+  const row = document.createElement('div');
+  row.className = 'row mb-3 align-items-center';
+  
+  if (existingData) row.dataset.existing = "true";
+  if (index !== null) row.dataset.index = index;
+
+  let acceptType = '';
+  if (currentDocumentType === 'invoice' || currentDocumentType === 'surat') {
+    acceptType = 'application/pdf';
+  } else if (currentDocumentType === 'foto') {
+    acceptType = 'image/*';
+  }
+
+  row.innerHTML = `
+    <div class="col-7">
+      <input type="file" class="form-control document-file" name="${currentDocumentType}[${index ?? documentCount}][file]" accept="${acceptType}">
+      ${existingData ? `<small class="text-muted">Sebelumnya: ${existingData.file.name}</small>` : ''}
+    </div>
+    <div class="col-4">
+      <input type="date" class="form-control document-date" name="${currentDocumentType}[${index ?? documentCount}][date]" value="${existingData ? existingData.date : ''}" required>
+    </div>
+    <div class="col-1">
+      <button type="button" class="btn btn-danger btn-sm remove-row-btn">×</button>
+    </div>
+  `;
+
+  container.appendChild(row);
+
+  row.querySelector('.remove-row-btn').addEventListener('click', () => {
+    row.remove();
+    documentCount--;
+  });
+}
+
+
+// Event tombol "Tambah Baris Dokumen"
+document.getElementById('addDocumentRowBtn').addEventListener('click', () => {
+  addDocumentRow();
+});
+
+// Event tombol "Simpan Dokumen"
+document.getElementById('saveDocumentsBtn').addEventListener('click', () => {
+  const files = document.querySelectorAll('#documentList .document-file');
+  const dates = document.querySelectorAll('#documentList .document-date');
+const rows = document.querySelectorAll('#documentList .row');
+let dataToUpload = [];
+let valid = true;
+
+rows.forEach((row, i) => {
+  const fileInput = row.querySelector('.document-file');
+  const dateInput = row.querySelector('.document-date');
+  const isExisting = row.dataset.existing === "true";
+  const index = parseInt(row.dataset.index);
+
+  let file;
+
+  if (fileInput.files.length > 0) {
+    file = fileInput.files[0]; // file baru
+  } else if (isExisting && uploadedDocuments[currentDocumentType][index]) {
+    file = uploadedDocuments[currentDocumentType][index].file; // file lama
+  } else {
+    alert(`File pada baris ke-${i + 1} belum dipilih.`);
+    valid = false;
+    return;
+  }
+
+  if (!dateInput.value) {
+    alert(`Tanggal pada baris ke-${i + 1} belum diisi.`);
+    valid = false;
+    return;
+  }
+
+  dataToUpload.push({
+    file: file,
+    date: dateInput.value
+  });
+});
+
+if (!valid) return;
+
+
+  // Timpa data berdasarkan jenis dokumen
+  uploadedDocuments[currentDocumentType] = dataToUpload;
+
+  // Tampilkan ringkasan
+  let summaryHTML = '<ul class="list-group">';
+  dataToUpload.forEach((item, index) => {
+    summaryHTML += `
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">${item.file.name}</div>
+          Tanggal: ${item.date}
+        </div>
+      </li>
+    `;
+  });
+  summaryHTML += '</ul>';
+
+  const summaryContainer = document.getElementById(currentDocumentType + 'Summary');
+  summaryContainer.innerHTML = `
+    <h6>Ringkasan ${currentDocumentType.charAt(0).toUpperCase() + currentDocumentType.slice(1)}</h6>
+    ${summaryHTML}
+  `;
+
+  // Tutup modal
+  const modalEl = document.getElementById('uploadDocumentModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  modal.hide();
+
+  document.getElementById('documentList').innerHTML = '';
+  documentCount = 0;
+});
+
+document.getElementById('submitProjectBtn').addEventListener('click', function (event) {
+  event.preventDefault();
+  const form = document.getElementById('projectForm'); // form utama
+  const formData = new FormData(form);
+
+  // Tambahkan dokumen yang diunggah ke FormData
+  ['invoice', 'surat', 'foto'].forEach((type) => {
+    uploadedDocuments[type].forEach((doc, index) => {
+      formData.append(`${type}[${index}][file]`, doc.file);
+      formData.append(`${type}[${index}][date]`, doc.date);
+    });
   });
 
-  if (!isValid) {
-    alert('Semua file dan tanggal harus diisi.');
-  }
+  // for (let pair of formData.entries()) {
+  //   console.log(pair[0] + ':', pair[1]);
+  // }
+  // return;
 
-  return isValid; // kalau false, form tidak akan dikirim
-  }
-
-  function checkInput(input) {
-    if (!input.value) {
-      input.classList.add('is-invalid');
-    } else {
-      input.classList.remove('is-invalid');
+  // Kirim manual via fetch/AJAX
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
     }
-  }
-
-
-  let fotoIndex = 0, invoiceIndex = 0, suratIndex = 0;
-
-  function addFoto() {
-    const container = document.getElementById('fotoContainer');
-    const div = document.createElement('div');
-    div.classList.add('mb-3');
-    div.innerHTML = `
-      <div class="border rounded p-3 position-relative bg-light">
-        <div class="mb-2">
-          <label class="form-label">File Gambar</label>
-          <input type="file" name="foto[${fotoIndex}][file]" accept="image/*" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">File gambar wajib diisi.</div>
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Tanggal Gambar</label>
-          <input type="date" name="foto[${fotoIndex}][date]" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">Tanggal gambar wajib diisi.</div>
-        </div>
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
-      </div>
-    `;
-    container.appendChild(div);
-    fotoIndex++;
-  }
-
-  function addInvoice() {
-    const container = document.getElementById('invoiceContainer');
-    const div = document.createElement('div');
-    div.classList.add('mb-3');
-    div.innerHTML = `
-      <div class="border rounded p-3 position-relative bg-light">
-        <div class="mb-2">
-          <label class="form-label">File Invoice (PDF)</label>
-          <input type="file" name="invoice[${invoiceIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">File invoice wajib diisi.</div>
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Tanggal Invoice</label>
-          <input type="date" name="invoice[${invoiceIndex}][date]" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">Tanggal invoice wajib diisi.</div>
-        </div>
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
-      </div>
-    `;
-    container.appendChild(div);
-    invoiceIndex++;
-  }
-
-  function addSurat() {
-    const container = document.getElementById('suratContainer');
-    const div = document.createElement('div');
-    div.classList.add('mb-3');
-    div.innerHTML = `
-      <div class="border rounded p-3 position-relative bg-light">
-        <div class="mb-2">
-          <label class="form-label">File surat (PDF)</label>
-          <input type="file" name="surat[${suratIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">File surat wajib diisi.</div>
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Tanggal surat</label>
-          <input type="date" name="surat[${suratIndex}][date]" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">Tanggal surat wajib diisi.</div>
-        </div>
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
-      </div>
-    `;
-    container.appendChild(div);
-    suratIndex++;
-  }
+  })
+    .then(response => {
+    // console.log('Respo nse status:', response.status);
+    // console.log('Is redirected:', response.redirected);
+    // console.log('Status:', response.status);
+    // console.log('Redirected:', response.redirected);
+    // console.log('Redirect URL:', response.url);
+    // return;
+      if (response.redirected) {
+        window.location.href = response.url; 
+      } else {
+        return response.text().then(text => {
+          try {
+            const err = JSON.parse(text);
+            // tangani error validasi
+          } catch (e) {
+            console.error('Server Error (HTML):', text);
+            alert('Terjadi kesalahan pada server. Silakan cek kembali data Anda atau hubungi admin.');
+          }
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Terjadi kesalahan saat menyimpan proyek.');
+    });
+});
 
 </script>
 @endsection

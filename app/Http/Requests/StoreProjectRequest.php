@@ -38,7 +38,7 @@ class StoreProjectRequest extends FormRequest
             'status_inspeksi_logistik' => 'required|in:pending,diterima,ditolak',
             'status_ajuhan_upahan' => 'required|in:pending,diterima,ditolak',
 
-            'status_proyek' => 'required|in:pending,aktif,selesaibatal',
+            'status_proyek' => 'required|in:pending,aktif,selesai,batal',
 
             'status_milestone_20' => 'required|in:pending,hutang,piutang,lunas',
             'status_milestone_50' => 'required|in:pending,hutang,piutang,lunas',
@@ -49,6 +49,13 @@ class StoreProjectRequest extends FormRequest
             'tanggal_milestone_50' => 'nullable|date',
             'tanggal_milestone_80' => 'nullable|date',
             'tanggal_milestone_100' => 'nullable|date',
+
+            'invoice.*.file' => 'sometimes|file|mimes:pdf',
+            'invoice.*.date' => 'sometimes|date',
+            'surat.*.file' => 'sometimes|file|mimes:pdf',
+            'surat.*.date' => 'sometimes|date',
+            'foto.*.file' => 'sometimes|file|image',
+            'foto.*.date' => 'sometimes|date',
         ];
     }
 
