@@ -43,9 +43,20 @@
                             <a href="#" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
-                            <a href="#" class="text-danger" title="Hapus">
-                                <i class="bi bi-trash-fill fs-5"></i>
-                            </a>
+                            {{-- <form action="{{ route('partners.destroy', $partner['id']) }}" title="Hapus" method="POST" class="text-danger">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
+                                    <i class="bi bi-trash-fill fs-5"></i>
+                                </button>
+                            </form> --}}
+                            <form action="" title="Hapus" method="POST" class="text-danger">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
+                                    <i class="bi bi-trash-fill fs-5"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
