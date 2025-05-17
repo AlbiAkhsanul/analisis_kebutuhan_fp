@@ -13,21 +13,21 @@ class Letter extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['project_id', 'tanggal_surat', 'file_surat'];
+    protected $fillable = ['project_id', 'tanggal_dokumen', 'file_dokumen'];
 
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($letter) {
-            if ($letter->file_surat && Storage::exists($letter->file_surat)) {
-                Storage::delete($letter->file_surat);
-            }
-        });
-    }
+    //     static::deleting(function ($letter) {
+    //         if ($letter->file_dokumen && Storage::exists($letter->file_dokumen)) {
+    //             Storage::delete($letter->file_dokumen);
+    //         }
+    //     });
+    // }
 }

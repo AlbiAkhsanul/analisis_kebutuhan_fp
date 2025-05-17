@@ -13,21 +13,21 @@ class ProjectImage extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['project_id', 'file_foto', 'tanggal_foto'];
+    protected $fillable = ['project_id', 'file_dokumen', 'tanggal_dokumen'];
 
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($projectImage) {
-            if ($projectImage->file_foto && Storage::exists($projectImage->file_foto)) {
-                Storage::delete($projectImage->file_foto);
-            }
-        });
-    }
+    //     static::deleting(function ($projectImage) {
+    //         if ($projectImage->file_dokumen && Storage::exists($projectImage->file_dokumen)) {
+    //             Storage::delete($projectImage->file_dokumen);
+    //         }
+    //     });
+    // }
 }

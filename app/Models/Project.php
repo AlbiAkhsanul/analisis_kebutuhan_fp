@@ -13,18 +13,24 @@ class Project extends Model
 
     protected $fillable = [
         'partner_id',
-        'nama_project',
-        'tanggal_project',
+        'nama_proyek',
+        'tanggal_proyek',
+        'lokasi',
+        'status_proyek',
         'estimasi_lama',
         'rencana_anggaran_produksi',
         'rencana_anggaran_biaya',
-        'status_penajuan_kebutuhan_material',
+        'status_pengajuan_kebutuhan_material',
         'status_inspeksi_logistik',
-        'astatus_ajuhan_upahan',
-        'milestone_20',
-        'milestone_50',
-        'milestone_80',
-        'milestone_100'
+        'status_ajuhan_upahan',
+        'status_milestone_20',
+        'status_milestone_50',
+        'status_milestone_80',
+        'status_milestone_100',
+        'tanggal_milestone_20',
+        'tanggal_milestone_50',
+        'tanggal_milestone_80',
+        'tanggal_milestone_100'
     ];
 
     public function partner()

@@ -31,18 +31,18 @@
                 <tr>
                     <td class="text-start">{{ $index + 1 }}</td>
                     <td>
-                        <strong>{{ $proyek->nama_project }}</strong><br>
+                        <strong>{{ $proyek->nama_proyek }}</strong><br>
                         <small>{{ $proyek->partner->nama_partner}}</small>
                     </td>
                     <td>{{ $proyek->lokasi }}</td>
                     <td class="text-start">
-                        @if($proyek->status_project === 'aktif')
+                        @if($proyek->status_proyek === 'aktif')
                             <span class="badge bg-success fw-bold fs-6 rounded-pill">Aktif</span>
-                        @elseif($proyek->status_project === 'selesai')
+                        @elseif($proyek->status_proyek === 'selesai')
                             <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
-                        @elseif($proyek->status_project === 'batal')
+                        @elseif($proyek->status_proyek === 'batal')
                             <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
-                        @elseif($proyek->status_project === 'pending')
+                        @elseif($proyek->status_proyek === 'pending')
                             <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
                         @endif
                     </td>
@@ -54,9 +54,13 @@
                             <a href="/projects/{{ $proyek->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
-                            <a href="#" class="text-danger" title="Hapus">
-                                <i class="bi bi-trash-fill fs-5"></i>
-                            </a>
+                            <form action="{{ route('projects.destroy', $proyek['id']) }}" title="Hapus" method="POST" class="text-danger">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus proyek ini?')">
+                                    <i class="bi bi-trash-fill fs-5"></i>
+                                </button>
+                            </form>    
                         </div>
                     </td>
                 </tr>

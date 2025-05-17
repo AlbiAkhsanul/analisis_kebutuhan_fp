@@ -8,6 +8,7 @@ use App\Models\Partner;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProjectController extends Controller
@@ -43,14 +44,9 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        // try {
-        //     $validatedData = $request->validated();
-        //     dd('Validated Data:', $validatedData);
-        // } catch (\Illuminate\Validation\ValidationException $e) {
-        //     dd('Validation Errors:', $e->errors());
-        // }
-
         $validatedData = $request->validated();
+
+        // dd($validatedData);
 
         // Simpan data proyek
         $project = Project::create($validatedData);
@@ -63,7 +59,8 @@ class ProjectController extends Controller
                 foreach ($request->file($key) as $index => $fileData) {
                     $file = $fileData['file'];
                     $date = $request->input("{$key}.{$index}.date");
-                    $path = $file->store($folder);
+                    $filename = uniqid() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs($folder, $filename, 'public');
 
                     $relation = match ($key) {
                         'invoice' => 'invoices',
@@ -72,14 +69,14 @@ class ProjectController extends Controller
                     };
 
                     $project->{$relation}()->create([
-                        'file_path' => $path,
-                        'date' => $date,
+                        'file_dokumen' => $path,
+                        'tanggal_dokumen' => $date,
                     ]);
                 }
             }
         }
 
-        return redirect('projects.index')->with('success', 'Succesfully Added A Project!');
+        return redirect('/projects')->with('success', 'Succesfully Added A Project!');
     }
 
 
@@ -119,7 +116,7 @@ class ProjectController extends Controller
 
         $project->types()->sync($validatedData['jenis_proyek']);
 
-        return redirect('projects.index')->with('success', 'Succesfully Updated A Project!');
+        return redirect('/projects')->with('success', 'Succesfully Added A Project!');
     }
 
     /**
@@ -128,6 +125,16 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // Hapus file dari relasi: invoices, letters, images
+        foreach (['invoices', 'letters', 'images'] as $relation) {
+            foreach ($project->$relation as $fileEntry) {
+                if ($fileEntry->file_dokumen && Storage::disk('public')->exists($fileEntry->file_dokumen)) {
+                    Storage::disk('public')->delete($fileEntry->file_dokumen);
+                }
+                $fileEntry->delete(); // Hapus data dari database juga
+            }
+        }
+
         // Hapus proyek
         $project->delete();
 

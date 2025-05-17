@@ -13,21 +13,21 @@ class Invoice extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['project_id', 'tanggal_invoice', 'file_invoice'];
+    protected $fillable = ['project_id', 'tanggal_dokumen', 'file_dokumen'];
 
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($invoice) {
-            if ($invoice->file_invoice && Storage::exists($invoice->file_invoice)) {
-                Storage::delete($invoice->file_invoice);
-            }
-        });
-    }
+    //     static::deleting(function ($invoice) {
+    //         if ($invoice->file_dokumen && Storage::exists($invoice->file_dokumen)) {
+    //             Storage::delete($invoice->file_dokumen);
+    //         }
+    //     });
+    // }
 }
