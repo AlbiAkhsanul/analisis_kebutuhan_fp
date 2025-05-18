@@ -209,8 +209,13 @@
                     @foreach($project->images as $index => $image)
                         <div class="foto-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
-                                <label class="form-label">File Gambar</label><br>
-                                <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                                <label class="form-label">File Foto</label><br>
+                                <img 
+                                    src="{{ asset('storage/' . $image->file_dokumen) }}" 
+                                    alt="Gambar Proyek" 
+                                    class="img-fluid rounded border"
+                                    style="max-height: 250px; object-fit: cover;"
+                                >
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Tanggal Gambar</label>
@@ -233,7 +238,12 @@
                         <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
                                 <label class="form-label">File Invoice</label><br>
-                                <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                                <embed 
+                                    src="{{ asset('storage/' . $invoice->file_dokumen) }}" 
+                                    type="application/pdf" 
+                                    width="100%" 
+                                    height="400px"
+                                />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Tanggal Invoice</label>
@@ -256,7 +266,12 @@
                         <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
                                 <label class="form-label">File Surat</label><br>
-                                <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                                <embed 
+                                    src="{{ asset('storage/' . $letter->file_dokumen) }}" 
+                                    type="application/pdf" 
+                                    width="100%" 
+                                    height="400px"
+                                />
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Tanggal Surat</label>
