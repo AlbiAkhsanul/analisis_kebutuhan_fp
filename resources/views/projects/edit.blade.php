@@ -337,39 +337,62 @@
     const container = document.getElementById('fotoContainer');
     const div = document.createElement('div');
     div.classList.add('mb-3');
+    const currentIndex = fotoIndex;
     div.innerHTML = `
-      <div class="border rounded p-3 position-relative bg-light">
-        <div class="mb-2">
-          <label class="form-label">File Gambar</label>
-          <input type="file" name="foto[${fotoIndex}][file]" accept="image/*" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">File gambar wajib diisi.</div>
+        <div class="border rounded p-3 position-relative bg-light">
+            <div class="mb-2">
+                <label class="form-label">Preview Gambar</label><br>
+                <img id="preview-${currentIndex}" src="" alt="Preview Gambar" class="img-fluid mb-2 d-none border rounded" style="max-height: 200px; object-fit: cover;">
+            </div>
+            <div class="mb-2">
+                <label class="form-label">File Gambar</label>
+                <input type="file" name="foto[${currentIndex}][file]" accept="image/*" class="form-control" required onblur="checkInput(this)" onchange="previewImage(this, ${currentIndex})">
+                <div class="invalid-feedback">File gambar wajib diisi.</div>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Tanggal Gambar</label>
+                <input type="date" name="foto[${currentIndex}][date]" class="form-control" required onblur="checkInput(this)">
+                <div class="invalid-feedback">Tanggal gambar wajib diisi.</div>
+            </div>
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
         </div>
-        <div class="mb-2">
-          <label class="form-label">Tanggal Gambar</label>
-          <input type="date" name="foto[${fotoIndex}][date]" class="form-control" required onblur="checkInput(this)">
-          <div class="invalid-feedback">Tanggal gambar wajib diisi.</div>
-        </div>
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
-      </div>
     `;
     container.appendChild(div);
     fotoIndex++;
+  }
+
+  function previewImage(input, index) {
+    const preview = document.getElementById(`preview-${index}`);
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+        };
+        reader.readAsDataURL(file);
+    }
   }
 
   function addInvoice() {
     const container = document.getElementById('invoiceContainer');
     const div = document.createElement('div');
     div.classList.add('mb-3');
+    const currentIndex = invoiceIndex;
     div.innerHTML = `
       <div class="border rounded p-3 position-relative bg-light">
         <div class="mb-2">
+          <label class="form-label">Preview Invoice</label><br>
+          <embed id="preview-invoice-${currentIndex}" type="application/pdf" class="d-none border rounded" width="100%" height="300px" />
+        </div>
+        <div class="mb-2">
           <label class="form-label">File Invoice (PDF)</label>
-          <input type="file" name="invoice[${invoiceIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
+          <input type="file" name="invoice[${currentIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)" onchange="previewPDF(this, 'invoice', ${currentIndex})">
           <div class="invalid-feedback">File invoice wajib diisi.</div>
         </div>
         <div class="mb-2">
           <label class="form-label">Tanggal Invoice</label>
-          <input type="date" name="invoice[${invoiceIndex}][date]" class="form-control" required onblur="checkInput(this)">
+          <input type="date" name="invoice[${currentIndex}][date]" class="form-control" required onblur="checkInput(this)">
           <div class="invalid-feedback">Tanggal invoice wajib diisi.</div>
         </div>
         <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
@@ -386,13 +409,17 @@
     div.innerHTML = `
       <div class="border rounded p-3 position-relative bg-light">
         <div class="mb-2">
+          <label class="form-label">Preview Surat</label><br>
+          <embed id="preview-surat-${currentIndex}" type="application/pdf" class="d-none border rounded" width="100%" height="300px" />
+        </div>
+        <div class="mb-2">
           <label class="form-label">File surat (PDF)</label>
-          <input type="file" name="surat[${suratIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)">
+          <input type="file" name="surat[${currentIndex}][file]" accept="application/pdf" class="form-control" required onblur="checkInput(this)" onchange="previewPDF(this, 'surat', ${currentIndex})">
           <div class="invalid-feedback">File surat wajib diisi.</div>
         </div>
         <div class="mb-2">
           <label class="form-label">Tanggal surat</label>
-          <input type="date" name="surat[${suratIndex}][date]" class="form-control" required onblur="checkInput(this)">
+          <input type="date" name="surat[${currentIndex}][date]" class="form-control" required onblur="checkInput(this)">
           <div class="invalid-feedback">Tanggal surat wajib diisi.</div>
         </div>
         <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.closest('.mb-3').remove()"></button>
@@ -400,6 +427,22 @@
     `;
     container.appendChild(div);
     suratIndex++;
+  }
+
+  function previewPDF(input, prefix, index) {
+    const file = input.files[0];
+    const preview = document.getElementById(`preview-${prefix}-${index}`);
+
+    if (file && file.type === 'application/pdf') {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.classList.remove('d-none');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.classList.add('d-none');
+    }
   }
 
     let hapusFotoLamaIds = [];
