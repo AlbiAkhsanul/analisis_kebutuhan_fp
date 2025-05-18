@@ -203,84 +203,78 @@
             </div>
 
             <div class="py-3 border-b border-gray-500">
-                {{-- ================= FOTO LAMA ================= --}}
-                <h5>Foto Lama</h5>
-                @foreach($project->images as $index => $image)
-                    <div class="foto-lama border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Gambar</label><br>
-                            <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                <div class="w-50 ">
+                    {{-- ================= FOTO ================= --}}
+                    <h5>Edit Gambar</h5>
+                    @foreach($project->images as $index => $image)
+                        <div class="foto-lama border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Gambar</label><br>
+                                <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Tanggal Gambar</label>
+                                <input type="date" name="foto_lama[{{ $image->id }}][date]" value="{{ $image->tanggal_dokumen }}" class="form-control">
+                            </div>
+                            <input type="hidden" name="foto_lama[{{ $image->id }}][id]" value="{{ $image->id }}">
+                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusFotoLama(this)">Hapus</button> --}}
+                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusFotoLama(this)"></button>
                         </div>
-                        <div class="mb-2">
-                            <label class="form-label">Tanggal Gambar</label>
-                            <input type="date" name="foto_lama[{{ $image->id }}][date]" value="{{ $image->tanggal_dokumen }}" class="form-control">
-                        </div>
-                        <input type="hidden" name="foto_lama[{{ $image->id }}][id]" value="{{ $image->id }}">
-                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusFotoLama(this)">Hapus</button>
+                    @endforeach
+                    <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
+                    <div class="mb-4">
+                        <div id="fotoContainer"></div>
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
                     </div>
-                @endforeach
-                <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
 
-                {{-- ================= INVOICE LAMA ================= --}}
-                <h5>Invoice Lama</h5>
-                @foreach($project->invoices as $index => $invoice)
-                    <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Invoice</label><br>
-                            <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                    {{-- ================= INVOICE ================= --}}
+                    <h5>Edit Invoice</h5>
+                    @foreach($project->invoices as $index => $invoice)
+                        <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Invoice</label><br>
+                                <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Tanggal Invoice</label>
+                                <input type="date" name="invoice_lama[{{ $invoice->id }}][date]" value="{{ $invoice->tanggal_dokumen }}" class="form-control">
+                            </div>
+                            <input type="hidden" name="invoice_lama[{{ $invoice->id }}][id]" value="{{ $invoice->id }}">
+                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusInvoiceLama(this)">Hapus</button> --}}
+                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusInvoiceLama(this)"></button>
                         </div>
-                        <div class="mb-2">
-                            <label class="form-label">Tanggal Invoice</label>
-                            <input type="date" name="invoice_lama[{{ $invoice->id }}][date]" value="{{ $invoice->tanggal_dokumen }}" class="form-control">
-                        </div>
-                        <input type="hidden" name="invoice_lama[{{ $invoice->id }}][id]" value="{{ $invoice->id }}">
-                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusInvoiceLama(this)">Hapus</button>
+                    @endforeach
+                    <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
+                    <div class="mb-4">
+                        <div id="invoiceContainer"></div>
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
                     </div>
-                @endforeach
-                <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
 
-                {{-- ================= SURAT LAMA ================= --}}
-                <h5>Surat Lama</h5>
-                @foreach($project->letters as $index => $letter)
-                    <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Surat</label><br>
-                            <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                    {{-- ================= SURAT ================= --}}
+                    <h5>Edit Surat</h5>
+                    @foreach($project->letters as $index => $letter)
+                        <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Surat</label><br>
+                                <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Tanggal Surat</label>
+                                <input type="date" name="surat_lama[{{ $letter->id }}][date]" value="{{ $letter->tanggal_dokumen }}" class="form-control">
+                            </div>
+                            <input type="hidden" name="surat_lama[{{ $letter->id }}][id]" value="{{ $letter->id }}">
+                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusSuratLama(this)">Hapus</button> --}}
+                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusSuratLama(this)"></button>
                         </div>
-                        <div class="mb-2">
-                            <label class="form-label">Tanggal Surat</label>
-                            <input type="date" name="surat_lama[{{ $letter->id }}][date]" value="{{ $letter->tanggal_dokumen }}" class="form-control">
-                        </div>
-                        <input type="hidden" name="surat_lama[{{ $letter->id }}][id]" value="{{ $letter->id }}">
-                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusSuratLama(this)">Hapus</button>
+                    @endforeach
+                    <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">
+                    <div class="mb-4">
+                        <div id="suratContainer"></div>
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
                     </div>
-                @endforeach
-                <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">
+                </div>
             </div>
-
-            <div class="py-3 border-b border-gray-500">
-              {{-- ================= GAMBAR ================= --}}
-              <div class="mb-4">
-                <h5>Upload Gambar</h5>
-                <div id="fotoContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
-              </div>
-
-              {{-- ================= INVOICE ================= --}}
-              <div class="mb-4">
-                <h5>Upload Invoice</h5>
-                <div id="invoiceContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
-              </div>
-
-              {{-- ================= SURAT ================= --}}
-              <div class="mb-4">
-                <h5>Upload Surat</h5>
-                <div id="suratContainer"></div>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
-              </div>
-            </div>
-
+                
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
                     Update Proyek

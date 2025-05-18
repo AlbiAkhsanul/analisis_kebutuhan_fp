@@ -135,47 +135,49 @@
             </div>
 
             <div class="py-3">
-                {{-- ================= FOTO ================= --}}
-                <h5>Foto</h5>
-                @foreach($project->images as $index => $image)
-                    <div class="foto border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Gambar</label><br>
-                            <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                <div class="w-50">
+                    {{-- ================= FOTO ================= --}}
+                    <h5>Foto</h5>
+                    @foreach($project->images as $index => $image)
+                        <div class="foto border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Gambar</label><br>
+                                <a href="{{ asset('storage/' . $image->file_dokumen) }}" target="_blank">Lihat Gambar</a>
+                            </div>
+                            <div class="mb-2">
+                                <p class="fs-5">Tanggal Foto:&nbsp;{{ $image->tanggal_dokumen }}</p>
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <p class="fs-5">Tanggal Foto:{{ $image->tanggal_dokumen }}</p>
-                        </div>
-                    </div>
-                @endforeach
+                    @endforeach
 
-                {{-- ================= INVOICE ================= --}}
-                <h5>Invoice</h5>
-                @foreach($project->invoices as $index => $invoice)
-                    <div class="invoice border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Invoice</label><br>
-                            <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                    {{-- ================= INVOICE ================= --}}
+                    <h5>Invoice</h5>
+                    @foreach($project->invoices as $index => $invoice)
+                        <div class="invoice border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Invoice</label><br>
+                                <a href="{{ asset('storage/' . $invoice->file_dokumen) }}" target="_blank">Lihat Invoice</a>
+                            </div>
+                            <div class="mb-2">
+                                <p class="fs-5">Tanggal Invoice:&nbsp;{{ $invoice->tanggal_dokumen }}</p>
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <p class="fs-5">Tanggal Invoice: {{ $invoice->tanggal_dokumen }}</p>
-                        </div>
-                    </div>
-                @endforeach
+                    @endforeach
 
-                {{-- ================= SURAT ================= --}}
-                <h5>Surat</h5>
-                @foreach($project->letters as $index => $letter)
-                    <div class="surat border rounded p-3 position-relative bg-light mb-3">
-                        <div class="mb-2">
-                            <label class="form-label">File Surat</label><br>
-                            <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                    {{-- ================= SURAT ================= --}}
+                    <h5>Surat</h5>
+                    @foreach($project->letters as $index => $letter)
+                        <div class="surat border rounded p-3 position-relative bg-light mb-3">
+                            <div class="mb-2">
+                                <label class="form-label">File Surat</label><br>
+                                <a href="{{ asset('storage/' . $letter->file_dokumen) }}" target="_blank">Lihat Surat</a>
+                            </div>
+                            <div class="mb-2">
+                                <p class="fs-5">Tanggal Surat:&nbsp;{{ $letter->tanggal_dokumen }}</p>
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <p class="fs-5">Tanggal Surat: {{ $letter->tanggal_dokumen }}</p>
-                        </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
