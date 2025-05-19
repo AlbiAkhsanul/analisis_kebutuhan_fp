@@ -3,7 +3,7 @@
 @section('title', 'Edit Proyek')
 
 @section('content')
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <div class="px-4 d-flex justify-content-between align-items-center mb-3">
         <a href="/projects" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
             <i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Kembali Ke Daftar Proyek
@@ -203,9 +203,9 @@
             </div>
 
             <div class="py-3 border-b border-gray-500">
-                <div class="w-50 ">
+                <div class="w-50">
                     {{-- ================= FOTO ================= --}}
-                    <h5>Edit Gambar</h5>
+                    {{-- <h5>Edit Gambar</h5> --}}
                     @foreach($project->images as $index => $image)
                         <div class="foto-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
@@ -222,18 +222,17 @@
                                 <input type="date" name="foto_lama[{{ $image->id }}][date]" value="{{ $image->tanggal_dokumen }}" class="form-control">
                             </div>
                             <input type="hidden" name="foto_lama[{{ $image->id }}][id]" value="{{ $image->id }}">
-                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusFotoLama(this)">Hapus</button> --}}
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusFotoLama(this)"></button>
                         </div>
                     @endforeach
                     <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
                     <div class="mb-4">
                         <div id="fotoContainer"></div>
-                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
+                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addFoto()"> Edit/Tambah Gambar</button>
                     </div>
 
                     {{-- ================= INVOICE ================= --}}
-                    <h5>Edit Invoice</h5>
+                    {{-- <h5>Edit Invoice</h5> --}}
                     @foreach($project->invoices as $index => $invoice)
                         <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
@@ -250,18 +249,17 @@
                                 <input type="date" name="invoice_lama[{{ $invoice->id }}][date]" value="{{ $invoice->tanggal_dokumen }}" class="form-control">
                             </div>
                             <input type="hidden" name="invoice_lama[{{ $invoice->id }}][id]" value="{{ $invoice->id }}">
-                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusInvoiceLama(this)">Hapus</button> --}}
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusInvoiceLama(this)"></button>
                         </div>
                     @endforeach
                     <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
                     <div class="mb-4">
                         <div id="invoiceContainer"></div>
-                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
+                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Edit/Tambah Invoice</button>
                     </div>
 
                     {{-- ================= SURAT ================= --}}
-                    <h5>Edit Surat</h5>
+                    {{-- <h5>Edit Surat</h5> --}}
                     @foreach($project->letters as $index => $letter)
                         <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
@@ -278,14 +276,13 @@
                                 <input type="date" name="surat_lama[{{ $letter->id }}][date]" value="{{ $letter->tanggal_dokumen }}" class="form-control">
                             </div>
                             <input type="hidden" name="surat_lama[{{ $letter->id }}][id]" value="{{ $letter->id }}">
-                            {{-- <button type="button" class="btn btn-danger btn-sm mt-2" onclick="hapusSuratLama(this)">Hapus</button> --}}
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusSuratLama(this)"></button>
                         </div>
                     @endforeach
                     <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">
                     <div class="mb-4">
                         <div id="suratContainer"></div>
-                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
+                        <button type="button" class="btn bi bi-file-earmark-text-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addSurat()"> Edit/Tambah Surat</button>
                     </div>
                 </div>
             </div>

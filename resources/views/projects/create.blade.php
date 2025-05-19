@@ -3,7 +3,7 @@
 @section('title', 'Tambah Proyek')
 
 @section('content')
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
         <a href="/projects" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
             <i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Kembali Ke Daftar Proyek
@@ -197,34 +197,23 @@
             </div>
 
             <div class="py-3 border-b border-gray-500">
-              <div class="w-50">
-                {{-- ================= GAMBAR ================= --}}
-                <div class="mb-4">
-                  <h5>Upload Gambar</h5>
-                  <div id="fotoContainer"></div>
-                  <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addFoto()">+ Tambah Gambar</button>
+                <div class="w-50">
+                    <div class="mb-4 space-y-4">
+                        {{-- ================= GAMBAR ================= --}}
+                        <div id="fotoContainer"></div>
+                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addFoto()"> Tambah Gambar</button>
+                        {{-- ================= INVOICE ================= --}}
+                        <div id="invoiceContainer"></div>
+                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Tambah Invoice</button>
+                        {{-- ================= SURAT ================= --}}
+                        <div id="suratContainer"></div>
+                        <button type="button" class="btn bi-file-earmark-text-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addSurat()"> Tambah Surat</button>
+                    </div>
                 </div>
-
-                {{-- ================= INVOICE ================= --}}
-                <div class="mb-4">
-                  <h5>Upload Invoice</h5>
-                  <div id="invoiceContainer"></div>
-                  <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addInvoice()">+ Tambah Invoice</button>
-                </div>
-
-                {{-- ================= SURAT ================= --}}
-                <div class="mb-4">
-                  <h5>Upload Surat</h5>
-                  <div id="suratContainer"></div>
-                  <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addSurat()">+ Tambah Surat</button>
-                </div>
-              </div>
             </div>
               
-            <div class="mt-3">
-                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">
-                    Tambah Data Proyek
-                </button>
+            <div class="mt-5">
+                <button id="submitProjectBtn" type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold bi bi-plus-lg"> Tambah Data Proyek</button>
             </div>
         </form>
     </div>
@@ -337,6 +326,7 @@
     const container = document.getElementById('suratContainer');
     const div = document.createElement('div');
     div.classList.add('mb-3');
+    const currentIndex = suratIndex;
     div.innerHTML = `
       <div class="border rounded p-3 position-relative bg-light">
         <div class="mb-2">

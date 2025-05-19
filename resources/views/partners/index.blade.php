@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Main Content -->
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
         <a href="/partners/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
@@ -53,7 +53,7 @@
                             <form action="" title="Hapus" method="POST" class="text-danger">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
+                                <button class="border-0 bg-transparent p-0 text-danger align-self-center" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
                                     <i class="bi bi-trash-fill fs-5"></i>
                                 </button>
                             </form>

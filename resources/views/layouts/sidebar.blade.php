@@ -1,4 +1,4 @@
-<div class="col-lg-3 mt-4 text-white p-2 border-end" style="min-height: 80vh;">
+<div class="col-lg-2 mt-4 text-white p-2 border-end" style="min-height: 80vh;">
     <div class="text-start ms-3 mb-3 mt-3">
         <img src="{{ asset('src/anomali.jpeg') }}" alt="User" class="rounded-circle" width="100" style="border-radius: 121px; border: 5px white solid" src="https://placehold.co/100x100">
     </div>
@@ -22,7 +22,7 @@
     @if(Route::currentRouteName() === 'projects.index')
         <form action="{{ route('logout') }}" method="POST" class="w-75 mt-5 ms-3">
             @csrf
-            <button type="submit" class="btn btn-danger fw-bold w-100">
+            <button type="submit" class="btn btn-danger fw-bold w-100 rounded-pill">
                 Keluar <i class="bi bi-box-arrow-right ms-2"></i>
             </button>
         </form>

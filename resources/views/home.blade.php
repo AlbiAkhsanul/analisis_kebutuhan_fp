@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Main Content -->
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
         <a href="/projects/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
@@ -54,13 +54,13 @@
                             <a href="/projects/{{ $proyek->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
-                            <form action="{{ route('projects.destroy', $proyek['id']) }}" title="Hapus" method="POST" class="text-danger">
+                            <form action="{{ route('projects.destroy', $proyek['id']) }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus proyek ini?')" class="m-0 p-0">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus proyek ini?')">
+                                <button type="submit" class="border-0 bg-transparent p-0 text-danger align-self-center" title="Hapus">
                                     <i class="bi bi-trash-fill fs-5"></i>
                                 </button>
-                            </form>    
+                            </form>
                         </div>
                     </td>
                 </tr>
