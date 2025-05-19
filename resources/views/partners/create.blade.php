@@ -10,8 +10,8 @@
         </a>
     </div>
 
-    <div class="bg-white mx-4 p-4 rounded shadow-sm">
-        <div class="pb-3 border-bottom border-2 mb-3">
+    <div class="bg-white mx-4 p-4">
+        <div class="pb-3 border-bottom mb-3">
             <h3 class="fw-bold mb-1">Menambahkan Data Mitra Baru</h3>
         </div>
 
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="text-end mt-4">
+            <div class="text-start mt-4">
                 <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">
                     <i class="bi bi-plus-circle"></i> Tambah Data Mitra
                 </button>

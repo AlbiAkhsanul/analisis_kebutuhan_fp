@@ -24,7 +24,8 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        return view('partners.create');
+        $user = auth()->user();
+        return view('partners.create', compact('user'));
     }
 
     /**
