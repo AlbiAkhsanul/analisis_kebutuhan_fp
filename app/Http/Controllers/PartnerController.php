@@ -68,7 +68,8 @@ class PartnerController extends Controller
     public function edit(Partner $partner)
     {
         $partner->loadMissing(['projects']);
-        return view('partners.edit', compact('partner'));
+        $user = auth()->user();
+        return view('partners.edit', compact('partner', 'user'));
     }
 
     /**
