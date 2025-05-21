@@ -57,11 +57,16 @@
                 <label class="form-label fs-5">Logo Mitra:</label><br>
             </div>
 
-             <div class="py-3 border-b border-gray-500">
+            <div class="border-b border-gray-500">
                 <div class="w-50">
-                    <div class="mb-4 space-y-4">
-                        <div id="logo"></div>
-                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addFoto()"> Tambahkan Logo Mitra</button>
+                    <div class="pb-10 mb-20">
+                        <div id="logoContainer"></div>
+
+                        <button type="button" 
+                            class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" 
+                            onclick="addLogo()">
+                            Tambahkan Logo Mitra
+                        </button>
                     </div>
                 </div>
             </div>
@@ -74,4 +79,53 @@
         </form>
     </div>
 </div>
+
+<script>
+let logoAdded = false;
+
+function addLogo() {
+    const container = document.getElementById('logoContainer');
+
+    // Prevent multiple logos from being added
+    if (logoAdded) return;
+
+    const div = document.createElement('div');
+    const currentIndex = logoAdded;
+    div.classList.add('mb-3');
+    div.innerHTML = `
+        <div class="border rounded p-3 position-relative bg-light">
+            <div class="mb-2 text-start">
+                <label class="form-label">Preview Logo</label><br>
+                <img id="logoPreview" src="" alt="Preview Logo" class="img-fluid mb-2 d-none border rounded" style="max-height: 200px;">
+            </div>
+            <div class="mb-2">
+                <label class="form-label">File Logo</label>
+                <input type="file" name="logo_file" accept="image/*" class="form-control" required onchange="previewLogo(this)">
+            </div>
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeLogo(this)"></button>
+        </div>
+    `;
+    container.appendChild(div);
+    logoAdded = true;
+}
+
+function previewLogo(input) {
+    const preview = document.getElementById('logoPreview');
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeLogo(button) {
+    button.closest('.mb-3').remove();
+    logoAdded = false;
+}
+</script>
+
 @endsection

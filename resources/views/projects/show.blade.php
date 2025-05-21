@@ -3,7 +3,7 @@
 @section('title', 'Detail Proyek')
 
 @section('content')
-<div class="col-md-9 mt-4" style="min-height: 80vh;">
+<div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
         <a href="/projects" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">

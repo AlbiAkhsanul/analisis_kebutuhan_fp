@@ -40,7 +40,7 @@
                             <a href="/partners/{{ $partner->id }}" class="text-primary" title="Lihat">
                                 <i class="bi bi-eye-fill fs-5"></i>
                             </a>&nbsp;
-                            <a href="#" class="text-warning" title="Edit">
+                            <a href="/partners/{{ $partner->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
                             {{-- <form action="{{ route('partners.destroy', $partner['id']) }}" title="Hapus" method="POST" class="text-danger">
