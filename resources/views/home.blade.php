@@ -14,6 +14,11 @@
             <i class="bi bi-eye-fill me-1"></i> Lihat Daftar Mitra
         </a>
     </div>
+    {{-- Search Button --}}
+    <form class="px-4 mb-3 d-flex w-50" role="search">
+      <input class="form-control me-2" type="search" placeholder="Cari Proyek" aria-label="Search" name="search" value="{{request('search')}}">
+      <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
+    </form>
     <!-- Tabel Proyek -->
     <div class="bg-white mx-4 p-3 rounded shadow-sm">
         <table class="table align-middle">

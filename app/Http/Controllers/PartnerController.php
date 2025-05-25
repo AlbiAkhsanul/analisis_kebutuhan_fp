@@ -12,10 +12,25 @@ class PartnerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $partners = Partner::all();
+        $keyword = $request->input('search');
         $user = auth()->user();
+        // Cek apakah ada keyword pencarian
+        if ($keyword) {
+            $partners = Partner::query()
+                ->where(function ($query) use ($keyword) {
+                    $query->where('nama_partner', 'like', "%{$keyword}%")
+                        ->orWhere('email_partner', 'like', "%{$keyword}%")
+                        ->orWhere('alamat', 'like', "%{$keyword}%")
+                        ->orWhere('deskripsi', 'like', "%{$keyword}%")
+                        ->orWhere('no_telfon', 'like', "%{$keyword}%");
+                })
+                ->get();
+        } else {
+            $partners = Partner::all();
+        }
+
         return view('partners.index', compact('partners', 'user'));
     }
 

@@ -17,14 +17,29 @@ class ProjectController extends Controller
      * Menampilkan daftar semua proyek.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::with('partner')->get();
+        $keyword = $request->input('search');
         $user = auth()->user();
 
-        // return view('projects.index', compact('projects', 'user'));
-        return view('home', compact('projects', 'user')); //Coba memanggil home punya mas farel
+        // Cek apakah ada keyword pencarian
+        if ($keyword) {
+            $projects = Project::with('partner')
+                ->where(function ($query) use ($keyword) {
+                    $query->where('nama_proyek', 'like', "%{$keyword}%")
+                        ->orWhere('lokasi', 'like', "%{$keyword}%")
+                        ->orWhereHas('partner', function ($partnerQuery) use ($keyword) {
+                            $partnerQuery->where('nama_partner', 'like', "%{$keyword}%");
+                        });
+                })
+                ->get();
+        } else {
+            $projects = Project::with('partner')->get();
+        }
+
+        return view('home', compact('projects', 'user', 'keyword'));
     }
+
 
     /**
      * Menampilkan form untuk membuat proyek baru.

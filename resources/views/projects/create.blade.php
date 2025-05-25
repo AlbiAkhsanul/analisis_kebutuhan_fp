@@ -77,6 +77,7 @@
                                     name="jenis_proyek[]"
                                     value="{{ $type['id'] }}"
                                     class="form-checkbox w-4 h-4"
+                                    required
                                 />
                                 <span>{{ $type['nama_project_type'] }}</span>
                             </label>

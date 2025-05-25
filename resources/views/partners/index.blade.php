@@ -14,6 +14,11 @@
             Kembali Ke Daftar Proyek
         </a>
     </div>
+    {{-- Search Button --}}
+    <form class="px-4 mb-3 d-flex w-50" role="search">
+      <input class="form-control me-2" type="search" placeholder="Cari Mitra" aria-label="Search" name="search" value="{{request('search')}}">
+      <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
+    </form>
     <!-- Tabel Mitra -->
     <div class="bg-white mx-4 p-3 rounded shadow-sm">
         <table class="table align-middle">
@@ -43,13 +48,6 @@
                             <a href="/partners/{{ $partner->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
-                            {{-- <form action="{{ route('partners.destroy', $partner['id']) }}" title="Hapus" method="POST" class="text-danger">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
-                                    <i class="bi bi-trash-fill fs-5"></i>
-                                </button>
-                            </form> --}}
                             <form action="" title="Hapus" method="POST" class="text-danger">
                                 @csrf
                                 @method('DELETE')
