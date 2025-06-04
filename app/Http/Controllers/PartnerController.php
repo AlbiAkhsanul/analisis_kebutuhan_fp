@@ -26,12 +26,13 @@ class PartnerController extends Controller
                         ->orWhere('deskripsi', 'like', "%{$keyword}%")
                         ->orWhere('no_telfon', 'like', "%{$keyword}%");
                 })
-                ->get();
+                ->paginate(10)
+                ->appends(['search' => $keyword]);
         } else {
-            $partners = Partner::all();
+            $partners = Partner::paginate(10);
         }
 
-        return view('partners.index', compact('partners', 'user'));
+        return view('partners.index', compact('partners', 'user', 'keyword'));
     }
 
     /**

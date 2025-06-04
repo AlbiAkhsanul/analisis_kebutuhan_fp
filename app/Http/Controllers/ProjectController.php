@@ -32,9 +32,10 @@ class ProjectController extends Controller
                             $partnerQuery->where('nama_partner', 'like', "%{$keyword}%");
                         });
                 })
-                ->get();
+                ->paginate(10)
+                ->appends(['search' => $keyword]);
         } else {
-            $projects = Project::with('partner')->get();
+            $projects = Project::with('partner')->paginate(10);
         }
 
         return view('home', compact('projects', 'user', 'keyword'));

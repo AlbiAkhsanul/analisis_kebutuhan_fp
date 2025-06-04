@@ -34,7 +34,7 @@
             <tbody>
                 @foreach($partners as $index => $partner)
                 <tr>
-                    <td class="text-start">{{ $index + 1 }}</td>
+                    <td class="text-start">{{ ($partners->currentPage() - 1) * $partners->perPage() + $loop->iteration }}</td>
                     <td>
                         <strong>{{ $partner->nama_partner }}</strong>
                     </td>
@@ -61,11 +61,17 @@
                 @endforeach
                 @if($partners->isEmpty())
                 <tr>
-                    <td colspan="5" class="text-center text-muted">Tidak ada proyek.</td>
+                    <td colspan="5" class="text-center text-muted">Tidak ada partner.</td>
                 </tr>
                 @endif
             </tbody>
         </table>
+        {{-- <div class="mx-4 mt-3">
+            {{ $partners->appends(['search' => $keyword])->links() }}
+        </div> --}}
+    </div>
+    <div class="mx-4 mt-3">
+        {{ $partners->appends(['search' => $keyword])->links() }}
     </div>
 </div>
 @endsection

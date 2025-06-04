@@ -34,7 +34,7 @@
             <tbody>
                 @foreach($projects as $index => $proyek)
                 <tr>
-                    <td class="text-start">{{ $index + 1 }}</td>
+                    <td class="text-start">{{ ($projects->currentPage() - 1) * $projects->perPage() + $loop->iteration }}</td>
                     <td>
                         <strong>{{ $proyek->nama_proyek }}</strong><br>
                         <small>{{ $proyek->partner->nama_partner}}</small>
@@ -77,6 +77,12 @@
                 @endif
             </tbody>
         </table>
+        {{-- <div class="mx-4 mt-3">
+            {{ $projects->appends(['search' => $keyword])->links() }}
+        </div> --}}
+    </div>
+    <div class="mx-4 mt-3">
+        {{ $projects->appends(['search' => $keyword])->links() }}
     </div>
 </div>
 @endsection
