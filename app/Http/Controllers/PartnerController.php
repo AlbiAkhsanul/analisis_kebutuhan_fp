@@ -49,17 +49,20 @@ class PartnerController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validatedData = $request->validate([
             'nama_partner' => 'required|string|max:255',
             'email_partner' => 'required|string|max:255',
             'no_telfon' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
-            'deskrisi' => 'required|string|max:1024',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deskripsi' => 'required|string|max:1024',
+            // 'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // dd($validatedData); 
+
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('public/partnerLogos');
+            $logoPath = $request->file('logo')->store('/partnerLogos');
             $validatedData['logo'] = $logoPath;
         }
 
@@ -98,8 +101,8 @@ class PartnerController extends Controller
             'email_partner' => 'required|string|max:255',
             'no_telfon' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
-            'deskrisi' => 'required|string|max:1024',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deskripsi' => 'required|string|max:1024',
+            // 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -109,7 +112,7 @@ class PartnerController extends Controller
             }
 
             // Menyimpan logo baru
-            $logoPath = $request->file('logo')->store('public/partnerLogos');
+            $logoPath = $request->file('logo')->store('/partnerLogos');
             $validatedData['logo'] = $logoPath;
         }
 

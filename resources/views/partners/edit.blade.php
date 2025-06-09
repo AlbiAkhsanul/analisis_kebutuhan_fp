@@ -3,6 +3,7 @@
 @section('title', 'Tambah Mitra')
 
 @section('content')
+{{-- {{ dd($partner->id) }} --}}
 <div class="col-md-10 mt-4" style="min-height: 80vh;">
     <div class="px-4 d-flex justify-content-between align-items-center mb-3">
         <a href="/partners" class="btn btn-warning fw-bold px-4 py-2 rounded-pill text-white">
@@ -23,10 +24,11 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+        @endif  
 
-        <form action="{{ route('partners.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('partners.update',$partner->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             <div class="mb-3">
                 <label class="form-label fs-5">Nama Mitra</label>
@@ -50,10 +52,10 @@
 
             <div class="mb-3">
                 <label class="form-label fs-5">Deskripsi Tentang Mitra</label>
-                <textarea name="deskripsi" class="form-control" rows="4" value="{{ $partner->deskripsi }}"></textarea>
+                <textarea name="deskripsi" class="form-control" rows="4">{{ $partner->deskripsi }}</textarea>
             </div>
 
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label class="form-label fs-5">Logo Mitra:</label><br>
             </div>
 
@@ -85,10 +87,8 @@
 
                         <input type="hidden" name="hapus_logo_lama[]" id="hapusLogoLamaIds">
 
-                        {{-- Container for new logos --}}
                         <div id="logoContainer"></div>
 
-                        {{-- Button to add new logos --}}
                         <button type="button" 
                             class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" 
                             onclick="addLogo()">
@@ -96,7 +96,20 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
+            <div class="mb-3">
+    <label for="logo">Logo Mitra:</label>
+    <input type="file" name="logo" id="logo" accept="image/*" class="form-control">
+
+    @if ($partner->logo)
+        <div class="mt-2">
+            <p>Logo Saat Ini:</p>
+            <img src="{{ asset('storage/' . $partner->logo) }}" alt="Logo Mitra" style="max-height: 150px;">
+        </div>
+    @endif
+</div>
+
 
             <div class="text-start mt-4">
                 <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">

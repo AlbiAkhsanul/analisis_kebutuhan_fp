@@ -10,8 +10,8 @@
         </a>
     </div>
 
-    <div class="bg-white mx-4 p-4">
-        <div class="pb-3 border-bottom mb-3">
+    <div class="bg-white mx-4 p-4 rounded py-3">
+        <div class="pb-3 border-b border-gray-500">
             <h3 class="fw-bold mb-1">Detail Mitra</h3>
         </div>
 
@@ -25,23 +25,26 @@
             </div>
         @endif
 
+        <div class="">
+
+        </div>
         <div class="mb-3">
-            <label class="form-label fs-5">Nama Mitra</label>
-            <p class="form-control-plaintext">{{ $partner->nama_partner }}</p>
+            {{-- <label class="form-label fs-5">Nama Mitra</label> --}}
+            <p class="fs-5">Nama Mitra : <strong>{{ $partner->nama_partner }}</strong></p>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fs-5">Email Mitra</label>
-            <p class="form-control-plaintext">{{ $partner->email_partner }}</p>
+            {{-- <label class="form-label fs-5">Email Mitra</label> --}}
+            <p class="fs-5">Email Mitra : <strong>{{ $partner->email_partner }}</strong></p>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fs-5">Nomor Telepon</label>
-            <p class="form-control-plaintext">{{ $partner->no_telfon }}</p>
+            {{-- <label class="form-label fs-5">Nomor Telepon</label> --}}
+            <p class="fs-5">Nomor Telepon : <strong>{{ $partner->no_telfon }}</strong></p>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fs-5">Alamat</label>
+            {{-- <label class="form-label fs-5">Alamat</label> --}}
             <p class="form-control-plaintext">{{ $partner->alamat }}</p>
         </div>
 

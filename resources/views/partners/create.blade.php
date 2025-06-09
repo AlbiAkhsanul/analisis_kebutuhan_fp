@@ -10,7 +10,7 @@
         </a>
     </div>
 
-    <div class="bg-white mx-4 p-4">
+    <div class="bg-white mx-4 p-4 rounded">
         <div class="pb-3 border-bottom mb-3">
             <h3 class="fw-bold mb-1">Menambahkan Data Mitra Baru</h3>
         </div>
@@ -53,7 +53,7 @@
                 <textarea name="deskripsi" class="form-control" rows="4"></textarea>
             </div>
 
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label class="form-label fs-5">Logo Mitra:</label><br>
             </div>
 
@@ -69,7 +69,10 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
+            <label for="logo">Logo Mitra:</label>
+            <input type="file" name="logo" id="logo" accept="image/*" class="form-control">
 
             <div class="text-start mt-4">
                 <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">

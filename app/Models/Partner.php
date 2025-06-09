@@ -12,7 +12,8 @@ class Partner extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['email_partner', 'no_telfon', 'alamat', 'deksripsi', 'logo'];
+    // protected $fillable = ['nama_partner','email_partner', 'no_telfon', 'alamat', 'deksripsi', 'logo'];
+    protected $guarded = ['id'];
 
     public function projects()
     {
