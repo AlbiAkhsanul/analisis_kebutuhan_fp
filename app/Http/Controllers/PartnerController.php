@@ -62,7 +62,7 @@ class PartnerController extends Controller
         // dd($validatedData); 
 
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('/partnerLogos');
+            $logoPath = $request->file('logo')->store('partnerLogos', 'public');
             $validatedData['logo'] = $logoPath;
         }
 
@@ -108,11 +108,11 @@ class PartnerController extends Controller
         if ($request->hasFile('logo')) {
             // Menghapus logo lama jika ada
             if ($partner->logo) {
-                Storage::delete($partner->logo);
+                Storage::disk('public')->delete($partner->logo);
             }
 
             // Menyimpan logo baru
-            $logoPath = $request->file('logo')->store('/partnerLogos');
+            $logoPath = $request->file('logo')->store('partnerLogos', 'public');
             $validatedData['logo'] = $logoPath;
         }
 
@@ -128,7 +128,7 @@ class PartnerController extends Controller
     public function destroy(Partner $partner)
     {
         if ($partner->logo) {
-            Storage::delete($partner->logo);
+            Storage::disk('public')->delete($partner->logo);
         }
 
         $partner->delete();

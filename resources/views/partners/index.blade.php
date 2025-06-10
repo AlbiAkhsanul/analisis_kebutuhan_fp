@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Partners')
+@section('title', 'Mitra')
 
 @section('content')
 <!-- Main Content -->
@@ -48,10 +48,10 @@
                             <a href="/partners/{{ $partner->id }}/edit" class="text-warning" title="Edit">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>&nbsp;
-                            <form action="" title="Hapus" method="POST" class="text-danger">
+                             <form action="{{ route('partners.destroy', $partner['id']) }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus partner ini?')" class="m-0 p-0">
                                 @csrf
                                 @method('DELETE')
-                                <button class="border-0 bg-transparent p-0 text-danger align-self-center" onclick="return confirm('Apakah anda yakin ingin menghapus mitra ini?')">
+                                <button type="submit" class="border-0 bg-transparent p-0 text-danger align-self-center" title="Hapus">
                                     <i class="bi bi-trash-fill fs-5"></i>
                                 </button>
                             </form>

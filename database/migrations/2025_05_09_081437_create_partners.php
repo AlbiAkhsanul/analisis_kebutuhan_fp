@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('no_telfon', 255);
             $table->string('alamat', 255);
             $table->string('deskripsi', 1024);
-            $table->string('logo', 255);
+            $table->string('logo', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

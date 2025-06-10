@@ -77,9 +77,6 @@
                 @endif
             </tbody>
         </table>
-        {{-- <div class="mx-4 mt-3">
-            {{ $projects->appends(['search' => $keyword])->links() }}
-        </div> --}}
     </div>
     <div class="mx-4 mt-3">
         {{ $projects->appends(['search' => $keyword])->links() }}
