@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="bg-white mx-4 p-4">
+    <div class="bg-white mx-4 p-4 rounded">
         <div class="pb-3 border-bottom mb-3">
             <h3 class="fw-bold mb-1">Mengubah Data Mitra</h3>
         </div>

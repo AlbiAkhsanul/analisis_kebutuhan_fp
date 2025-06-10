@@ -27,9 +27,9 @@
                     <p class="fs-5">Tanggal Proyek : <strong>{{ $project->tanggal_proyek }}</strong></p>
                     <p class="fs-5">Lokasi Proyek: <strong> Wonokromo, Surabaya</strong></p>
                     <p class="fs-5">Estimasi Pengerjaan : <strong> 5 Bulan</strong></p>
-                    <p class="fs-5">Jenis Proyek:</p>
-                    <ul class="list-unstyled d-flex flex-wrap gap-2">
-                        @foreach ($project->types as $jenis)
+                    <ul class="list-unstyled d-flex flex-wrap gap-2 mb-1">
+                        <p class="fs-5">Jenis Proyek:</p> 
+                        @foreach ($project->types as $jenis)   
                             <li>
                                 <span class="badge bg-primary rounded-pill px-3 py-2">
                                     {{ $jenis['nama_project_type'] }}
@@ -66,9 +66,9 @@
                                 <td>{{ $project->tanggal_milestone_20 ? $project->tanggal_milestone_20 : '----' }}</td>
                                 <td class="text-start">
                                     @if($project->status_milestone_20 === 'lunas')
-                                        <span class="px-3 bg-slate-200 text-blue-800 fw-bold fs-6 rounded-pill">Lunas</span>
+                                        <span class="badge bg-green-700 text-light fw-bold fs-6 rounded-pill">Lunas</span>
                                     @elseif($project->status_milestone_20 === 'pending')
-                                        <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                                        <span class="badge bg-orange-300 text-dark fw-bold fs-6 rounded-pill">Pending</span>
                                     @elseif($project->status_milestone_20 === 'hutang')
                                         <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Hutang</span>
                                     @elseif($project->status_milestone_20 === 'piutang')
@@ -84,9 +84,9 @@
                                 <td>{{ $project->tanggal_milestone_50 ? $project->tanggal_milestone_50 : '----' }}</td>
                                 <td class="text-start">
                                     @if($project->status_milestone_50 === 'lunas')
-                                        <span class="px-3 bg-slate-200 text-blue-800 fw-bold fs-6 rounded-pill">Lunas</span>
+                                        <span class="px-3 bg-green-700 text-light fw-bold fs-6 rounded-pill">Lunas</span>
                                     @elseif($project->status_milestone_50 === 'pending')
-                                        <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                                        <span class="badge bg-orange-300 text-dark fw-bold fs-6 rounded-pill">Pending</span>
                                     @elseif($project->status_milestone_50 === 'hutang')
                                         <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Hutang</span>
                                     @elseif($project->status_milestone_50 === 'piutang')
@@ -102,13 +102,13 @@
                                 <td>{{ $project->tanggal_milestone_80 ? $project->tanggal_milestone_80 : '----' }}</td>
                                 <td class="text-start">
                                     @if($project->status_milestone_80 === 'lunas')
-                                        <span class="px-3 bg-slate-200 text-blue-800 fw-bold fs-6 rounded-pill">Lunas</span>
+                                        <span class="px-3 bg-green-700 text-light fw-bold fs-6 rounded-pill">Lunas</span>
                                     @elseif($project->status_milestone_80 === 'pending')
-                                        <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                                        <span class="badge bg-orange-300 text-dark fw-bold fs-6 rounded-pill">Pending</span>
                                     @elseif($project->status_milestone_80 === 'hutang')
-                                        <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Hutang</span>
+                                        <span class="badge bg-red-600 text-light fw-bold fs-6 rounded-pill">Hutang</span>
                                     @elseif($project->status_milestone_80 === 'piutang')
-                                        <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Piutang</span>
+                                        <span class="badge bg-red-600 text-light fw-bold fs-6 rounded-pill">Piutang</span>
                                     @endif
                                 </td>
                             </tr>
@@ -120,13 +120,13 @@
                                 <td>{{ $project->tanggal_milestone_100 ? $project->tanggal_milestone_100 : '----' }}</td>
                                 <td class="text-start">
                                     @if($project->status_milestone_100 === 'lunas')
-                                        <span class="px-3 bg-slate-200 text-blue-800 fw-bold fs-6 rounded-pill">Lunas</span>
+                                        <span class="px-3 bg-green-700 text-light fw-bold fs-6 rounded-pill">Lunas</span>
                                     @elseif($project->status_milestone_100 === 'pending')
-                                        <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                                        <span class="badge bg-orange-300 text-dark fw-bold fs-6 rounded-pill">Pending</span>
                                     @elseif($project->status_milestone_100 === 'hutang')
-                                        <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Hutang</span>
+                                        <span class="badge bg-red-600 text-light fw-bold fs-6 rounded-pill">Hutang</span>
                                     @elseif($project->status_milestone_100 === 'piutang')
-                                        <span class="badge bg-warning text-dark fw-bold fs-6 rounded-pill">Piutang</span>
+                                        <span class="badge bg-red-600 text-light fw-bold fs-6 rounded-pill">Piutang</span>
                                     @endif
                                 </td>
                             </tr>
@@ -138,7 +138,7 @@
                 <div class="w-50">
                     {{-- ================= FOTO ================= --}}
                     <h5>Foto</h5>
-                    @foreach($project->images as $index => $image)
+                    @forelse($project->images as $index => $image)
                         <div class="foto border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
                                 <img 
@@ -152,11 +152,13 @@
                                 <p class="fs-5">Tanggal Foto:&nbsp;{{ $image->tanggal_dokumen }}</p>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="text-muted fst-italic">Tidak ada foto yang diunggah.</p>
+                    @endforelse
 
                     {{-- ================= INVOICE ================= --}}
                     <h5>Invoice</h5>
-                    @foreach($project->invoices as $index => $invoice)
+                    @forelse($project->invoices as $index => $invoice)
                         <div class="invoice border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
                                 <label class="form-label">File Invoice</label><br>
@@ -171,11 +173,13 @@
                                 <p class="fs-5">Tanggal Invoice:&nbsp;{{ $invoice->tanggal_dokumen }}</p>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="text-muted fst-italic">Tidak ada invoice yang diunggah.</p>
+                    @endforelse
 
                     {{-- ================= SURAT ================= --}}
                     <h5>Surat</h5>
-                    @foreach($project->letters as $index => $letter)
+                    @forelse($project->letters as $index => $letter)
                         <div class="surat border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
                                 <label class="form-label">File Surat</label><br>
@@ -190,7 +194,9 @@
                                 <p class="fs-5">Tanggal Surat:&nbsp;{{ $letter->tanggal_dokumen }}</p>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="text-muted fst-italic">Tidak ada surat yang diunggah.</p>
+                    @endforelse
                 </div>
             </div>
         </div>

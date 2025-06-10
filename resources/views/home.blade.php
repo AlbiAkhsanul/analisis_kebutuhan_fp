@@ -71,9 +71,15 @@
                 </tr>
                 @endforeach
                 @if($projects->isEmpty())
-                <tr>
-                    <td colspan="5" class="text-center text-muted">Tidak ada proyek.</td>
-                </tr>
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            @if(request('search'))
+                                Tidak ada nama proyek dengan nama "<strong>{{ request('search') }}</strong>"
+                            @else
+                                Tidak ada data proyek.
+                            @endif
+                        </td>
+                    </tr>
                 @endif
             </tbody>
         </table>

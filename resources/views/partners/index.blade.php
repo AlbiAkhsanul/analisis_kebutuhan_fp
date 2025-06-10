@@ -60,9 +60,15 @@
                 </tr>
                 @endforeach
                 @if($partners->isEmpty())
-                <tr>
-                    <td colspan="5" class="text-center text-muted">Tidak ada partner.</td>
-                </tr>
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            @if(request('search'))
+                                Tidak ada nama mitra dengan nama "<strong>{{ request('search') }}</strong>"
+                            @else
+                                Tidak ada data mitra.
+                            @endif
+                        </td>
+                    </tr>
                 @endif
             </tbody>
         </table>

@@ -199,15 +199,14 @@
             <div class="py-3 border-b border-gray-500">
                 <div class="w-50">
                     <div class="mb-4 space-y-4">
-                        {{-- ================= GAMBAR ================= --}}
+                        {{-- ================= CONTAINER ================= --}}
                         <div id="fotoContainer"></div>
-                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addFoto()"> Tambah Gambar</button>
-                        {{-- ================= INVOICE ================= --}}
                         <div id="invoiceContainer"></div>
-                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Tambah Invoice</button>
-                        {{-- ================= SURAT ================= --}}
                         <div id="suratContainer"></div>
-                        <button type="button" class="btn bi-file-earmark-text-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addSurat()"> Tambah Surat</button>
+                        {{-- ================= TOMBOL ================= --}}
+                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addFoto()"> Tambah Gambar</button>
+                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Tambah Invoice</button>
+                        <button type="button" class="btn bi-file-earmark-text-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addSurat()"> Tambah Surat</button>
                     </div>
                 </div>
             </div>

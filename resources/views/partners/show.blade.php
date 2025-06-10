@@ -45,12 +45,12 @@
 
         <div class="mb-3">
             {{-- <label class="form-label fs-5">Alamat</label> --}}
-            <p class="form-control-plaintext">{{ $partner->alamat }}</p>
+            <p class="fs-5">Alamat : <strong>{{ $partner->alamat }}</strong></p>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fs-5">Deskripsi Tentang Mitra</label>
-            <p class="form-control-plaintext">{{ $partner->deskripsi }}</p>
+            {{-- <label class="form-label fs-5">Deskripsi Tentang Mitra</label> --}}
+            <p class="fs-5">Deskripsi Mitra : {{ $partner->deskripsi }}</p>
         </div>
 
         <div class="mb-3">
