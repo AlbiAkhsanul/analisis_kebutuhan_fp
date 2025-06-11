@@ -7,11 +7,13 @@
 <div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
     <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
-        <a href="/partners/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
-            + Tambah Data Mitra
-        </a>
+        @if(auth()->user() && auth()->user()->is_admin == 1)
+            <a href="/partners/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
+                + Tambah Data Mitra
+            </a>
+        @endif
         <a href="/projects" class="btn btn-warning fw-bold px-4 py-2 rounded-pill">
-            Kembali Ke Daftar Proyek
+            <i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Kembali Ke Daftar Proyek
         </a>
     </div>
     {{-- Search Button --}}
@@ -24,7 +26,7 @@
         <table class="table align-middle">
             <thead>
                 <tr class="text-start">
-                    <th>No</th>
+                    <th style="width: 3%;">No</th>
                     <th style="width: 45%;">Nama Mitra</th>
                     <th>Email</th>
                     <th>No Telefon</th>
@@ -45,16 +47,18 @@
                             <a href="/partners/{{ $partner->id }}" class="text-primary" title="Lihat">
                                 <i class="bi bi-eye-fill fs-5"></i>
                             </a>&nbsp;
-                            <a href="/partners/{{ $partner->id }}/edit" class="text-warning" title="Edit">
-                                <i class="bi bi-pencil-square fs-5"></i>
-                            </a>&nbsp;
-                             <form action="{{ route('partners.destroy', $partner['id']) }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus partner ini?')" class="m-0 p-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="border-0 bg-transparent p-0 text-danger align-self-center" title="Hapus">
-                                    <i class="bi bi-trash-fill fs-5"></i>
-                                </button>
-                            </form>
+                            @if(auth()->user() && auth()->user()->is_admin == 1)
+                                <a href="/partners/{{ $partner->id }}/edit" class="text-warning" title="Edit">
+                                    <i class="bi bi-pencil-square fs-5"></i>
+                                </a>&nbsp;
+                                <form action="{{ route('partners.destroy', $partner['id']) }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus partner ini?')" class="m-0 p-0">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="border-0 bg-transparent p-0 text-danger align-self-center" title="Hapus">
+                                        <i class="bi bi-trash-fill fs-5"></i>
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>

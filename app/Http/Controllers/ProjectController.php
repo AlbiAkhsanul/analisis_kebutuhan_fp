@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('is_admin')->except(['index', 'show']);
+    }
     /**
      * Menampilkan daftar semua proyek.
      *
@@ -206,8 +210,7 @@ class ProjectController extends Controller
                             Storage::disk('public')->delete($item->file_dokumen);
                         }
                     }
-
-                    $deletedCount = $model::whereIn('id', $ids)->delete();
+                    // $deletedCount = $model::whereIn('id', $ids)->delete();
                     // var_dump("Deleted from $key: ", $deletedCount);
                 }
             }

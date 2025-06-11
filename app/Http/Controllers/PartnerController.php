@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class PartnerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('is_admin')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      */
