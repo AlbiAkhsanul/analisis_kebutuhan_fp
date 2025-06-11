@@ -6,21 +6,26 @@
 <!-- Main Content -->
 <div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
-    <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
-        @if(auth()->user() && auth()->user()->is_admin == 1)
-            <a href="/partners/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
-                + Tambah Data Mitra
-            </a>
-        @endif
+    <div class="px-4 d-flex mb-3">
         <a href="/projects" class="btn btn-warning fw-bold px-4 py-2 rounded-pill">
             <i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Kembali Ke Daftar Proyek
         </a>
     </div>
     {{-- Search Button --}}
-    <form class="px-4 mb-3 d-flex w-50" role="search">
-      <input class="form-control me-2" type="search" placeholder="Cari Mitra" aria-label="Search" name="search" value="{{request('search')}}">
-      <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
-    </form>
+    <div class="d-flex px-4 justify-content-between mb-3">
+        <div class="d-flex w-25">
+            <form class="d-flex flex-grow-1" role="search">
+                <input class="form-control me-2" type="search" placeholder="Cari Mitra" aria-label="Search" name="search" value="{{ request('search') }}">
+                <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+
+        @if(auth()->user() && auth()->user()->is_admin == 1)
+            <a href="/partners/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
+                + Tambah Data Mitra
+            </a>
+        @endif
+    </div>
     <!-- Tabel Mitra -->
     <div class="bg-white mx-4 p-3 rounded shadow-sm">
         <table class="table align-middle">

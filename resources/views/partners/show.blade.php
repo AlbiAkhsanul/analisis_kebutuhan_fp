@@ -50,7 +50,7 @@
 
         <div class="mb-3">
             {{-- <label class="form-label fs-5">Deskripsi Tentang Mitra</label> --}}
-            <p class="fs-5">Deskripsi Mitra : {{ $partner->deskripsi }}</p>
+            <p class="fs-5">Deskripsi Mitra : <strong>{{ $partner->deskripsi }}</strong></p>
         </div>
 
         <div class="mb-3">
@@ -59,8 +59,7 @@
 
         <div class="mb-3 w-50">
             @if(!$partner->logo)
-                <p class="text-muted">Belum ada logo yang diunggah.</p>
-                
+                <h6 class="text-muted">Belum ada logo yang diunggah.</h6>
             @else
                 <img id="logoPreview" 
                         src="{{asset('storage/' . $partner->logo)}}" 

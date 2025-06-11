@@ -6,28 +6,31 @@
 <!-- Main Content -->
 <div class="col-md-10 mt-4" style="min-height: 80vh;">
     <!-- Tombol atas -->
-    <div class="px-4 d-flex justify-content-between align-items-center mb-3 ">
-        @if(auth()->user() && auth()->user()->is_admin == 1)
-            <a href="/projects/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
-                + Tambah Data Proyek
-            </a>
-        @endif
+    <div class="px-4 d-flex mb-3">
         <a href="/partners" class="btn btn-success fw-bold px-4 py-2 rounded-pill">
             <i class="bi bi-eye-fill me-1"></i> Lihat Daftar Mitra
         </a>
     </div>
     {{-- Search Button --}}
-    <div class="d-flex px-4 mb-3 gap-4 w-50">
-        <form class="d-flex flex-grow-1" role="search" method="GET" action="{{ route('projects.index') }}">
-            <input class="form-control me-2" type="search" placeholder="Cari Proyek" aria-label="Search" name="search" value="{{ request('search') }}">
-            <button class="btn btn-success" type="submit">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
+    <div class="d-flex px-4 justify-content-between mb-3 gap-5">
+        <div class="d-flex gap-4 w-50">
+            <form class="d-flex flex-grow-1" role="search" method="GET" action="{{ route('projects.index') }}">
+                <input class="form-control me-2" type="search" placeholder="Cari Proyek" aria-label="Search" name="search" value="{{ request('search') }}">
+                <button class="btn btn-success" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
 
-        <a href="{{ route('projects.exportPdf') }}" class="btn btn-danger">
-            <i class="bi bi-file-earmark-pdf-fill"></i> Download Laporan PDF
-        </a>
+            <a href="{{ route('projects.exportPdf') }}" class="btn btn-danger">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Download Laporan PDF
+            </a>
+        </div>
+
+        @if(auth()->user() && auth()->user()->is_admin == 1)
+            <a href="/projects/create" class="btn btn-primary fw-bold px-4 py-2 rounded-pill">
+                + Tambah Data Proyek
+            </a>
+        @endif
     </div>
 
     <!-- Tabel Proyek -->
