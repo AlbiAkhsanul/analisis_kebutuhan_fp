@@ -35,4 +35,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 });
 
+Route::get('/projects/report/pdf', [ProjectController::class, 'exportPdf'])->name('projects.exportPdf');
+
 require __DIR__ . '/auth.php';

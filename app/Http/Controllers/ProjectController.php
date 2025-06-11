@@ -9,13 +9,13 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProjectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is_admin')->except(['index', 'show']);
+        $this->middleware('is_admin')->except(['index', 'show', 'exportPdf']);
     }
     /**
      * Menampilkan daftar semua proyek.
@@ -238,5 +238,14 @@ class ProjectController extends Controller
                 }
             }
         }
+    }
+
+    public function exportPdf()
+    {
+        $projects = Project::with('partner')->get();
+
+        $pdf = pdf::loadView('projects.report', compact('projects'));
+
+        return $pdf->download('laporan_proyek.pdf');
     }
 }

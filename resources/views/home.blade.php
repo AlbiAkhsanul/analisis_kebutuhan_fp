@@ -17,10 +17,19 @@
         </a>
     </div>
     {{-- Search Button --}}
-    <form class="px-4 mb-3 d-flex w-50" role="search">
-      <input class="form-control me-2" type="search" placeholder="Cari Proyek" aria-label="Search" name="search" value="{{request('search')}}">
-      <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
-    </form>
+    <div class="d-flex px-4 mb-3 gap-4 w-50">
+        <form class="d-flex flex-grow-1" role="search" method="GET" action="{{ route('projects.index') }}">
+            <input class="form-control me-2" type="search" placeholder="Cari Proyek" aria-label="Search" name="search" value="{{ request('search') }}">
+            <button class="btn btn-success" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+
+        <a href="{{ route('projects.exportPdf') }}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf-fill"></i> Download Laporan PDF
+        </a>
+    </div>
+
     <!-- Tabel Proyek -->
     <div class="bg-white mx-4 p-3 rounded shadow-sm">
         <table class="table align-middle">
@@ -48,9 +57,9 @@
                         @elseif($proyek->status_proyek === 'selesai')
                             <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
                         @elseif($proyek->status_proyek === 'batal')
-                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
+                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Batal</span>
                         @elseif($proyek->status_proyek === 'pending')
-                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
+                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
                         @endif
                     </td>
                     <td class="text-start">
