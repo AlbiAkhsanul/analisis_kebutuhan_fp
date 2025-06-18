@@ -5,7 +5,7 @@
 @section('content')
 <div class="col-md-10 mt-4" style="min-height: 80vh;">
     <div class="px-4 d-flex justify-content-between align-items-center mb-3">
-        <a href="/partners" class="btn btn-warning fw-bold px-4 py-2 rounded-pill text-white">
+        <a href="/partners" class="btn btn-warning fw-bold px-4 py-2 rounded-pill text-dark">
             <i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Kembali Ke Daftar Mitra
         </a>
     </div>

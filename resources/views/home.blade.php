@@ -56,13 +56,13 @@
                     <td>{{ $proyek->lokasi }}</td>
                     <td class="text-start">
                         @if($proyek->status_proyek === 'aktif')
-                            <span class="badge bg-success fw-bold fs-6 rounded-pill">Aktif</span>
+                            <span class="px-3 bg-primary text-light fw-bold fs-6 rounded-pill">Aktif</span>
                         @elseif($proyek->status_proyek === 'selesai')
-                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Selesai</span>
+                            <span class="px-3 bg-green-700 text-light fw-bold fs-6 rounded-pill">Selesai</span>
                         @elseif($proyek->status_proyek === 'batal')
-                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Batal</span>
+                            <span class="badge bg-red-600 text-light fw-bold fs-6 rounded-pill">Batal</span>
                         @elseif($proyek->status_proyek === 'pending')
-                            <span class="badge bg-info text-dark fw-bold fs-6 rounded-pill">Pending</span>
+                            <span class="badge bg-orange-300 text-dark fw-bold fs-6 rounded-pill">Pending</span>
                         @endif
                     </td>
                     <td class="text-start">

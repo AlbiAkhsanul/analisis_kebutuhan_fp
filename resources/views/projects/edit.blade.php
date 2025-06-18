@@ -225,14 +225,7 @@
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusFotoLama(this)"></button>
                         </div>
                     @endforeach
-                    <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
-                    <div class="mb-4">
-                        <div id="fotoContainer"></div>
-                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addFoto()"> Edit/Tambah Gambar</button>
-                    </div>
 
-                    {{-- ================= INVOICE ================= --}}
-                    {{-- <h5>Edit Invoice</h5> --}}
                     @foreach($project->invoices as $index => $invoice)
                         <div class="invoice-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
@@ -252,14 +245,7 @@
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusInvoiceLama(this)"></button>
                         </div>
                     @endforeach
-                    <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
-                    <div class="mb-4">
-                        <div id="invoiceContainer"></div>
-                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Edit/Tambah Invoice</button>
-                    </div>
 
-                    {{-- ================= SURAT ================= --}}
-                    {{-- <h5>Edit Surat</h5> --}}
                     @foreach($project->letters as $index => $letter)
                         <div class="surat-lama border rounded p-3 position-relative bg-light mb-3">
                             <div class="mb-2">
@@ -279,11 +265,29 @@
                             <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="hapusSuratLama(this)"></button>
                         </div>
                     @endforeach
-                    <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">
-                    <div class="mb-4">
+
+                    <div class="mb-4 space-y-4">
+                        <input type="hidden" name="hapus_foto_lama[]" id="hapusFotoLamaIds">
+                        <input type="hidden" name="hapus_invoice_lama[]" id="hapusInvoiceLamaIds">
+                        <input type="hidden" name="hapus_surat_lama[]" id="hapusSuratLamaIds">                         
+                        <div id="fotoContainer"></div>
+                        <div id="invoiceContainer"></div>
                         <div id="suratContainer"></div>
-                        <button type="button" class="btn bi bi-file-earmark-text-fill btn-sm btn-primary mt-2 rounded-pill fw-bold" onclick="addSurat()"> Edit/Tambah Surat</button>
+                        <button type="button" class="btn bi bi-file-earmark-image-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addFoto()"> Edit/Tambah Gambar</button>                                  
+                        <button type="button" class="btn bi bi-calculator-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addInvoice()"> Edit/Tambah Invoice</button>
+                        <button type="button" class="btn bi bi-file-earmark-text-fill btn-sm btn-primary me-4 mt-2 rounded-pill fw-bold" onclick="addSurat()"> Edit/Tambah Surat</button>
                     </div>
+                    
+
+                    {{-- ================= INVOICE ================= --}}
+                    {{-- <h5>Edit Invoice</h5> --}}
+                    
+                    
+
+                    {{-- ================= SURAT ================= --}}
+                    {{-- <h5>Edit Surat</h5> --}}
+                    
+                    
                 </div>
             </div>
                 
@@ -403,6 +407,7 @@
     const container = document.getElementById('suratContainer');
     const div = document.createElement('div');
     div.classList.add('mb-3');
+    const currentIndex = suratIndex;
     div.innerHTML = `
       <div class="border rounded p-3 position-relative bg-light">
         <div class="mb-2">
