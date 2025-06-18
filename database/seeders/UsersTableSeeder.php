@@ -37,6 +37,17 @@ class UsersTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
                 'deleted_at' => null,
+            ],
+            [
+                'nama_pengguna' => 'Regular 2',
+                'password' => Hash::make('userpassword'),
+                'email' => 'user2@example.com',
+                'jobdesk' => 'Stakeholder',
+                'is_admin' => 0,
+                'foto_pengguna' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'deleted_at' => null,
             ]
         ]);
     }
