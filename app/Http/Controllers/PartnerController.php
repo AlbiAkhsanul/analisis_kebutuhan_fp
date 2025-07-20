@@ -76,6 +76,8 @@ class PartnerController extends Controller
         return redirect()->route('partners.index')->with('success', 'Succesfully Added A New Partner!');
     }
 
+    // test github
+
     /**
      * Display the specified resource.
      */
